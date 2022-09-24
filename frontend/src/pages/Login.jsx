@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container, Row, Col, Card, Form, Button,
 } from 'react-bootstrap';
@@ -6,30 +6,33 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import CurrentUserContext from '../contexts/CurrentUser';
 
 const validationSchema = Yup.object({
-  nickname: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
+  username: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
   password: Yup.string().required(),
 });
 
-const handleLogin = async ({ password, nickname }) => {
-  const body = { password, nickname };
-  // const baseUrl = 'http://localhost:5001';
-  // const loginUrl = new URL('api/v1/login', baseUrl).toString();
-  const config = {
-    responseType: 'json',
-  };
-
-  const response = await axios.post('api/v1/login', body, config);
-  const { token } = response.data;
-  console.log(token);
-  // window.localStorage.setItem({ ...token });
-};
-
 const Login = () => {
+  const { setCurrentUser } = useContext(CurrentUserContext);
+  const navigate = useNavigate();
+  const handleLogin = async ({ password, username }) => {
+    const body = { password, username };
+    const config = {
+      responseType: 'json',
+    };
+
+    const response = await axios.post('api/v1/login', body, config);
+    localStorage.setItem('token', response.data.token);
+    setCurrentUser({
+      username: response.data.username,
+    });
+    navigate('/');
+  };
   const formik = useFormik({
     initialValues: {
-      nickname: '',
+      username: '',
       password: '',
     },
     validationSchema,
@@ -47,16 +50,16 @@ const Login = () => {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    id="nickname"
-                    name="nickname"
+                    id="username"
+                    name="username"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.nickname}
-                    placeholder="Your nickname"
+                    value={formik.values.username}
+                    placeholder="Your username"
                     required
                   />
-                  {formik.touched.nickname && formik.errors.nickname ? (
-                    <div>{formik.errors.nickname}</div>
+                  {formik.touched.username && formik.errors.username ? (
+                    <div>{formik.errors.username}</div>
                   ) : null}
                 </Form.Group>
                 <Form.Group className="mb-3">
