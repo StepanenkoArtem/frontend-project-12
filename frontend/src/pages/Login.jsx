@@ -3,25 +3,38 @@ import {
   Container, Row, Col, Card, Form, Button,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { useFormik } from 'formik';
 
 const validationSchema = Yup.object({
-  nickName: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
-  password: Yup.string().min(8).required(),
+  nickname: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
+  password: Yup.string().required(),
 });
+
+const handleLogin = async ({ password, nickname }) => {
+  const body = { password, nickname };
+  // const baseUrl = 'http://localhost:5001';
+  // const loginUrl = new URL('api/v1/login', baseUrl).toString();
+  const config = {
+    responseType: 'json',
+  };
+
+  const response = await axios.post('api/v1/login', body, config);
+  const { token } = response.data;
+  console.log(token);
+  // window.localStorage.setItem({ ...token });
+};
 
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      nickName: '',
+      nickname: '',
       password: '',
     },
     validationSchema,
     validateOnBlur: true,
-    onSubmit: (values) => {
-      alert(values.password);
-    },
+    onSubmit: handleLogin,
   });
 
   return (
@@ -34,16 +47,16 @@ const Login = () => {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    id="nickName"
-                    name="nickName"
+                    id="nickname"
+                    name="nickname"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.nickName}
+                    value={formik.values.nickname}
                     placeholder="Your nickname"
                     required
                   />
-                  {formik.touched.nickName && formik.errors.nickName ? (
-                    <div>{formik.errors.nickName}</div>
+                  {formik.touched.nickname && formik.errors.nickname ? (
+                    <div>{formik.errors.nickname}</div>
                   ) : null}
                 </Form.Group>
                 <Form.Group className="mb-3">
