@@ -5,6 +5,7 @@ const CurrentUser = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
 
   const memoizedContext = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser]);
+
   return (
     <CurrentUserContext.Provider value={memoizedContext}>
       {children}

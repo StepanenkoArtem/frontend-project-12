@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import {
-  Container, Row, Col, Card, Form, Button,
+  Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -16,19 +16,23 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const { setCurrentUser } = useContext(CurrentUserContext);
+  const [authError, setAuthError] = useState(null);
+  const errorTipTarget = useRef(null);
+
   const navigate = useNavigate();
   const handleLogin = async ({ password, username }) => {
     const body = { password, username };
     const config = {
       responseType: 'json',
     };
-
-    const response = await axios.post('api/v1/login', body, config);
-    localStorage.setItem('token', response.data.token);
-    setCurrentUser({
-      username: response.data.username,
-    });
-    navigate('/');
+    try {
+      const response = await axios.post('api/v1/login', body, config);
+      localStorage.setItem('token', response.data.token);
+      setCurrentUser({ username: response.data.username });
+      navigate('/');
+    } catch (e) {
+      await setAuthError(e.response);
+    }
   };
   const formik = useFormik({
     initialValues: {
@@ -57,6 +61,7 @@ const Login = () => {
                     value={formik.values.username}
                     placeholder="Your username"
                     required
+                    isInvalid={!!authError}
                   />
                   {formik.touched.username && formik.errors.username ? (
                     <div>{formik.errors.username}</div>
@@ -71,11 +76,28 @@ const Login = () => {
                     onBlur={formik.handleBlur}
                     placeholder="Your password"
                     value={formik.values.password}
+                    ref={errorTipTarget}
+                    isInvalid={!!authError}
                   />
                   {formik.touched.password && formik.errors.password ? (
                     <div>{formik.errors.password}</div>
                   ) : null}
                 </Form.Group>
+                <Overlay target={errorTipTarget.current} show={!!authError} placement="bottom">
+                  {authError && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                      padding: '2px 10px',
+                      color: 'white',
+                      borderRadius: 3,
+                    }}
+                  >
+                    {authError.data.message}
+                  </div>
+                  )}
+                </Overlay>
                 <Button variant="primary" type="submit">
                   Enter
                 </Button>
