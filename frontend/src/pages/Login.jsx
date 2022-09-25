@@ -1,27 +1,47 @@
-import React from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import {
-  Container, Row, Col, Card, Form, Button,
+  Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import CurrentUserContext from '../contexts/CurrentUser';
 
 const validationSchema = Yup.object({
-  nickName: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
-  password: Yup.string().min(8).required(),
+  username: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
+  password: Yup.string().required(),
 });
 
 const Login = () => {
+  const { setCurrentUser } = useContext(CurrentUserContext);
+  const [authError, setAuthError] = useState(null);
+  const errorTipTarget = useRef(null);
+
+  const navigate = useNavigate();
+  const handleLogin = async ({ password, username }) => {
+    const body = { password, username };
+    const config = {
+      responseType: 'json',
+    };
+    try {
+      const response = await axios.post('api/v1/login', body, config);
+      localStorage.setItem('token', response.data.token);
+      setCurrentUser({ username: response.data.username });
+      navigate('/');
+    } catch (e) {
+      await setAuthError(e.response);
+    }
+  };
   const formik = useFormik({
     initialValues: {
-      nickName: '',
+      username: '',
       password: '',
     },
     validationSchema,
     validateOnBlur: true,
-    onSubmit: (values) => {
-      alert(values.password);
-    },
+    onSubmit: handleLogin,
   });
 
   return (
@@ -34,16 +54,17 @@ const Login = () => {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    id="nickName"
-                    name="nickName"
+                    id="username"
+                    name="username"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.nickName}
-                    placeholder="Your nickname"
+                    value={formik.values.username}
+                    placeholder="Your username"
                     required
+                    isInvalid={!!authError}
                   />
-                  {formik.touched.nickName && formik.errors.nickName ? (
-                    <div>{formik.errors.nickName}</div>
+                  {formik.touched.username && formik.errors.username ? (
+                    <div>{formik.errors.username}</div>
                   ) : null}
                 </Form.Group>
                 <Form.Group className="mb-3">
@@ -55,11 +76,28 @@ const Login = () => {
                     onBlur={formik.handleBlur}
                     placeholder="Your password"
                     value={formik.values.password}
+                    ref={errorTipTarget}
+                    isInvalid={!!authError}
                   />
                   {formik.touched.password && formik.errors.password ? (
                     <div>{formik.errors.password}</div>
                   ) : null}
                 </Form.Group>
+                <Overlay target={errorTipTarget.current} show={!!authError} placement="bottom">
+                  {authError && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                      padding: '2px 10px',
+                      color: 'white',
+                      borderRadius: 3,
+                    }}
+                  >
+                    {authError.data.message}
+                  </div>
+                  )}
+                </Overlay>
                 <Button variant="primary" type="submit">
                   Enter
                 </Button>
