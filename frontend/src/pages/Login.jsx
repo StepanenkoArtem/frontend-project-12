@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../contexts/CurrentUser';
+import ApiPaths from '../config/ApiPaths';
 
 const validationSchema = Yup.object({
   username: Yup.string().required(),
@@ -26,7 +27,7 @@ const Login = () => {
       responseType: 'json',
     };
     try {
-      const response = await axios.post('api/v1/login', body, config);
+      const response = await axios.post(ApiPaths.login, body, config);
       localStorage.setItem('token', response.data.token);
       setLoggedIn(true);
       navigate('/');
