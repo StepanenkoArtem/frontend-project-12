@@ -1,27 +1,25 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import ApiPaths from '../config/ApiPaths';
+import { useDispatch } from 'react-redux';
+import { fetchChannels } from '../slices/channelsSlice';
 import { CurrentUserContext } from '../contexts/CurrentUser';
+import { fetchMessages } from '../slices/messagesSlice';
 
 const Home = () => {
   const token = localStorage.getItem('token');
   const { client } = useContext(CurrentUserContext);
-  const url = ApiPaths.data;
-  const [data, setData] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data: fetchedData } = await client.get(url);
-      setData(fetchedData);
-    };
-    fetchData();
-  }, [token, client]);
+    dispatch(fetchChannels(client));
+    dispatch(fetchMessages(client));
+  }, []);
 
   return (token
     ? (
       <div>
         <div>CHAT</div>
-        <div>{JSON.stringify(data, ' ', 4)}</div>
+        <div />
       </div>
     )
     : <Navigate to="login" />
