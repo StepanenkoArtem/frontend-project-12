@@ -6,7 +6,8 @@ const Conversation = () => {
 
   return (
     <div className="chat-messages overflow-auto px-5" id="message-box">
-      {messages.ids.map((id) => <div key={id}>{messages.entities[id].text}</div>)}
+      {messages.ids.map((id) => (
+        <div key={id}>{messages.entities[id].text}</div>))}
     </div>
   );
 };
