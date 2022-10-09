@@ -17,10 +17,10 @@ const Home = () => {
 
   return (token
     ? (
-      <>
+      <div className="d-flex flex-column h-100">
         <Header />
         <Chat />
-      </>
+      </div>
     )
     : <Navigate to="login" />
   );
