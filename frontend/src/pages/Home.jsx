@@ -5,6 +5,7 @@ import { fetchChannels } from '../slices/channelsSlice';
 import { CurrentUserContext } from '../contexts/CurrentUser';
 import { fetchMessages } from '../slices/messagesSlice';
 import Chat from './chat/Chat';
+import Header from './Header';
 
 const Home = () => {
   const { client } = useContext(CurrentUserContext);
@@ -15,7 +16,12 @@ const Home = () => {
   dispatch(fetchMessages(client));
 
   return (token
-    ? <Chat />
+    ? (
+      <>
+        <Header />
+        <Chat />
+      </>
+    )
     : <Navigate to="login" />
   );
 };
