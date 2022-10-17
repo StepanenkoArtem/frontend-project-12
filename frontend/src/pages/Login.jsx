@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
@@ -7,15 +7,16 @@ import axios from 'axios';
 
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import CurrentUserContext from '../contexts/CurrentUser';
+import { useCurrentUser } from '../contexts/CurrentUser';
+import ApiPaths from '../config/ApiPaths';
 
 const validationSchema = Yup.object({
-  username: Yup.string().min(4).max(25, 'Cannot be longer then 25 symbols').required(),
+  username: Yup.string().required(),
   password: Yup.string().required(),
 });
 
 const Login = () => {
-  const { setCurrentUser } = useContext(CurrentUserContext);
+  const { setLoggedIn } = useCurrentUser();
   const [authError, setAuthError] = useState(null);
   const errorTipTarget = useRef(null);
 
@@ -26,9 +27,9 @@ const Login = () => {
       responseType: 'json',
     };
     try {
-      const response = await axios.post('api/v1/login', body, config);
+      const response = await axios.post(ApiPaths.login, body, config);
       localStorage.setItem('token', response.data.token);
-      setCurrentUser({ username: response.data.username });
+      setLoggedIn(true);
       navigate('/');
     } catch (e) {
       await setAuthError(e.response);
@@ -63,9 +64,7 @@ const Login = () => {
                     required
                     isInvalid={!!authError}
                   />
-                  {formik.touched.username && formik.errors.username ? (
-                    <div>{formik.errors.username}</div>
-                  ) : null}
+
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Control
@@ -77,11 +76,10 @@ const Login = () => {
                     placeholder="Your password"
                     value={formik.values.password}
                     ref={errorTipTarget}
+                    required
                     isInvalid={!!authError}
                   />
-                  {formik.touched.password && formik.errors.password ? (
-                    <div>{formik.errors.password}</div>
-                  ) : null}
+
                 </Form.Group>
                 <Overlay target={errorTipTarget.current} show={!!authError} placement="bottom">
                   {authError && (

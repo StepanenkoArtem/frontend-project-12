@@ -1,0 +1,11 @@
+{
+  "header": {
+    "title": "Hexlet Chat",
+    "signOutButton": "Выйти"
+  },
+  "channels": {
+    "header": {
+      "title": "Каналы"
+    }
+  }
+}
