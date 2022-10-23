@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/StepanenkoArtem/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6"
+    "@hexlet/chat-server": "^1.1.6",
+    "socket.io": "^4.5.3"
   },
   "engines": {
     "npm": "8.x",

@@ -12,12 +12,10 @@ export const fetchMessages = createAsyncThunk(
 const messagesAdapter = createEntityAdapter();
 
 const messagesSlice = createSlice({
-  name: 'message',
+  name: 'messages',
   initialState: messagesAdapter.getInitialState({ loadingStatus: 'idle', error: null }),
   reducers: {
-    addMessage: (state, action) => {
-      state.messages.push(action.payload);
-    },
+    addMessage: messagesAdapter.addOne,
   },
   extraReducers: (builder) => {
     builder
@@ -38,5 +36,7 @@ const messagesSlice = createSlice({
 });
 
 export const { addMessage } = messagesSlice.actions;
+const selectors = messagesAdapter.getSelectors((state) => state.messages);
+export { selectors };
 
 export default messagesSlice.reducer;
