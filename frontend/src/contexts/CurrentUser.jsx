@@ -8,11 +8,11 @@ export const CurrentUserContext = createContext({
 });
 
 export const CurrentUserProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(false);
 
   const memoizedUserContext = useMemo(
-    () => ({ loggedIn, setLoggedIn }),
-    [loggedIn],
+    () => ({ currentUser, setCurrentUser }),
+    [currentUser],
   );
 
   return (

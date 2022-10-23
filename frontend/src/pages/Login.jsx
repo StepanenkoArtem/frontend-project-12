@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
-  const { setLoggedIn } = useCurrentUser();
+  const { setCurrentUser } = useCurrentUser();
   const [authError, setAuthError] = useState(null);
   const errorTipTarget = useRef(null);
 
@@ -27,9 +27,9 @@ const Login = () => {
       responseType: 'json',
     };
     try {
-      const response = await axios.post(ApiPaths.login, body, config);
-      localStorage.setItem('token', response.data.token);
-      setLoggedIn(true);
+      const { data } = await axios.post(ApiPaths.login, body, config);
+      localStorage.setItem('token', data.token);
+      setCurrentUser({ username: data.username, authorized: !!data.username });
       navigate('/');
     } catch (e) {
       await setAuthError(e.response);

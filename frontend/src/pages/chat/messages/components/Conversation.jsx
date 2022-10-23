@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { selectors } from '../../../../slices/messagesSlice';
+import Message from './Message';
 
 const Conversation = () => {
-  const messages = useSelector((state) => state.messages);
+  const messages = useSelector(selectors.selectAll);
 
   return (
     <div className="chat-messages overflow-auto px-5" id="message-box">
-      {messages.ids.map((id) => (
-        <div key={id}>{messages.entities[id].text}</div>))}
+      {messages.map((m) => <Message message={m} key={m.id} />)}
     </div>
   );
 };

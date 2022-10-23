@@ -5,7 +5,7 @@ const useClient = () => {
   const client = axios.create();
   const token = localStorage.getItem('token');
   client.defaults.headers.common.Authorization = `Bearer ${token}`;
-  return useMemo(() => client, [token]);
+  return useMemo(() => client, [client]);
 };
 
 export default useClient;

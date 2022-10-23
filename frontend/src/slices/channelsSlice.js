@@ -26,7 +26,6 @@ const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchChannels.fulfilled, (state, action) => {
-        console.log(action.payload);
         channelsAdapter.addMany(state, action);
         state.loadingStatus = 'idle';
         state.error = null;
