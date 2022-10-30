@@ -4,7 +4,7 @@ const Message = ({ message }) => {
   const { username, body } = message;
 
   return (
-    <div>
+    <div className="text-break">
       <span className="px-2 fw-bold">
         {username}
         :

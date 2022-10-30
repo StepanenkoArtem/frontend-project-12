@@ -12,7 +12,7 @@ const Channels = () => {
   dispatch(fetchChannels(client));
 
   return (
-    <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
+    <div className="col-4 col-md-3 col-lg-2 border-end pt-5 px-0 bg-light">
       <ChannelsListHeader />
       <ChannelList />
     </div>
