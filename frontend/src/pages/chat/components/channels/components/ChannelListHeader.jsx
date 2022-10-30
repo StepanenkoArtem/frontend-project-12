@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PlusIcon from '../../../../icons/PlusIcon';
+import PlusIcon from '../../../../../icons/PlusIcon';
 
 const ChannelListHeader = () => {
   const { t } = useTranslation();

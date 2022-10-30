@@ -1,14 +1,33 @@
-import React from 'react';
-import Messages from './messages/Messages';
-import Channels from './channels/Channels';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import Messages from './components/messages/Messages';
+import Channels from './components/channels/Channels';
+import useClient from '../../hooks/useClient';
+import ApiPaths from '../../config/ApiPaths';
+import { addMessages } from '../../slices/messagesSlice';
+import { addChannels } from '../../slices/channelsSlice';
 
-const Chat = () => (
-  <div className="container h-100 my-4 overflow-hidden rounded shadow">
-    <div className="row h-100 bg-white flex-row">
-      <Channels />
-      <Messages />
+const Chat = () => {
+  const client = useClient();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      const { data } = await client.get(ApiPaths.data);
+      dispatch(addMessages(data.messages));
+      dispatch(addChannels(data.channels));
+    };
+    loadInitialData();
+  }, []);
+
+  return (
+    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+      <div className="row h-100 bg-white flex-row">
+        <Channels />
+        <Messages />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Chat;
