@@ -10,6 +10,7 @@ import { useCurrentUser } from '../../../../contexts/CurrentUser';
 const NewMessage = () => {
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const { currentUser } = useCurrentUser();
 
   const socket = useSocket();
@@ -20,8 +21,11 @@ const NewMessage = () => {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    socket.emit('newMessage', { body: newMessage, channelId: 1, username: currentUser?.username });
-    setNewMessage('');
+    setIsSending(true);
+    socket.emit('newMessage', { body: newMessage, channelId: 1, username: currentUser?.username }, () => {
+      setNewMessage('');
+      setIsSending(false);
+    });
   };
 
   socket.on('newMessage', (args) => {
@@ -36,8 +40,9 @@ const NewMessage = () => {
             className="border-0 p-0 ps-2 form-control"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            disabled={isSending}
           />
-          <Button type="submit" className="btn btn-group-vertical bg-white border-0" disabled={!newMessage}>
+          <Button type="submit" className="btn btn-group-vertical bg-white border-0" disabled={isSending}>
             <RightArrowIcon className="text-secondary" />
           </Button>
         </Form.Group>
