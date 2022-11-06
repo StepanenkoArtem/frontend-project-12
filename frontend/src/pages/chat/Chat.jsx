@@ -4,8 +4,8 @@ import Messages from './components/messages/Messages';
 import Channels from './components/channels/Channels';
 import useClient from '../../hooks/useClient';
 import ApiPaths from '../../config/ApiPaths';
-import { addMessages } from '../../slices/messagesSlice';
-import { addChannels } from '../../slices/channelsSlice';
+import { addMessages } from '../../store/messages/messages.slice';
+import { addChannels } from '../../store/channels/channels.slice';
 
 const Chat = () => {
   const client = useClient();
