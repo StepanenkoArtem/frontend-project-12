@@ -40,7 +40,6 @@ const AddNewChannelModal = ({ show, closeModal }) => {
         <Modal.Body>
           <Form.Control
             type="text"
-            autoFocus
             id="channelName"
             name="channelName"
             onChange={formik.handleChange}

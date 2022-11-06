@@ -31,7 +31,7 @@ const NewMessage = () => {
           <Form.Control
             type="text"
             className="border-0 p-0 ps-2 form-control"
-            autoFocus={!isSending}
+            autoFocus
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             disabled={isSending}
