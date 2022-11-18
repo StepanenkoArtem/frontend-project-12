@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
-import * as Yup from 'yup';
 import axios from 'axios';
 
 import { useFormik } from 'formik';
@@ -10,13 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../contexts/CurrentUser';
 import ApiPaths from '../config/ApiPaths';
 
-const validationSchema = Yup.object({
-  username: Yup.string().required(),
-  password: Yup.string().required(),
-});
+import loginSchema from '../validationSchemas/login';
+import { useCurrentSocket } from '../contexts/CurrentSocket';
 
 const Login = () => {
   const { setCurrentUser } = useCurrentUser();
+  const { socket } = useCurrentSocket();
   const [authError, setAuthError] = useState(null);
   const errorTipTarget = useRef(null);
 
@@ -30,6 +28,7 @@ const Login = () => {
       const { data } = await axios.post(ApiPaths.login, body, config);
       localStorage.setItem('token', data.token);
       setCurrentUser({ username: data.username, authorized: !!data.username });
+      socket.connect();
       navigate('/');
     } catch (e) {
       await setAuthError(e.response);
@@ -40,7 +39,7 @@ const Login = () => {
       username: '',
       password: '',
     },
-    validationSchema,
+    validationSchema: loginSchema,
     validateOnBlur: true,
     onSubmit: handleLogin,
   });

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectors } from '../../../../slices/messagesSlice';
+import { selectMessagesByChannelId } from '../../../../../store/messages/messages.slice';
 import Message from './Message';
+import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 
 const Conversation = () => {
-  const messages = useSelector(selectors.selectAll);
+  const activeChannelId = useSelector(activeChannelIdSelector);
+  const messages = useSelector((state) => selectMessagesByChannelId(state, activeChannelId));
 
   return (
     <div className="chat-messages overflow-auto px-5" id="message-box">
