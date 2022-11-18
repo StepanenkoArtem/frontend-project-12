@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
-import activeChannelIdSelector from '../../../../../store/ui/ui.selectors';
+import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 
 const NewMessage = () => {
   const [newMessage, setNewMessage] = useState('');

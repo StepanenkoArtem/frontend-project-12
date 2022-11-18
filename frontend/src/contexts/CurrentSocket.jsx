@@ -4,7 +4,7 @@ import React, {
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addMessage } from '../store/messages/messages.slice';
-import { addChannel } from '../store/channels/channels.slice';
+import { addChannel, deleteChannel, updateChannel } from '../store/channels/channels.slice';
 
 export const CurrentSocket = createContext({
   socket: {},
@@ -32,6 +32,14 @@ export const CurrentSocketProvider = ({ children }) => {
 
   socket.on('newChannel', (channel) => {
     dispatch(addChannel(channel));
+  });
+
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(deleteChannel(id));
+  });
+
+  socket.on('renameChannel', (channel) => {
+    dispatch(updateChannel(channel));
   });
 
   return (

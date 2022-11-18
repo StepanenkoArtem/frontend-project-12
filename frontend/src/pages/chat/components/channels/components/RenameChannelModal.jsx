@@ -6,11 +6,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
-import { createNewChannel } from '../../../../../store/channels/channels.slice';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
+import { renameChannel } from '../../../../../store/channels/channels.slice';
+import {
+  renamedChannelIdSelector,
+} from '../../../../../store/ui/ui.selectors';
 
-const AddNewChannelModal = ({ show, closeModal }) => {
+const RenameChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
+  const channelId = useSelector(renamedChannelIdSelector);
   const dispatch = useDispatch();
   const { socket } = useCurrentSocket();
 
@@ -23,11 +27,11 @@ const AddNewChannelModal = ({ show, closeModal }) => {
       channelName: '',
     },
     validationSchema: channelSchema,
-    validateOnBlur: true,
+    validateOnBlur: false,
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
       closeModal();
-      dispatch(createNewChannel({ channelName, socket }));
+      dispatch(renameChannel({ channelName, channelId, socket }));
       formik.resetForm();
     },
   });
@@ -36,7 +40,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
     <Modal show={show}>
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Header closeButton onClick={closeModal}>
-          <Modal.Title>Create new channel</Modal.Title>
+          <Modal.Title>Rename channel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Control
@@ -54,10 +58,10 @@ const AddNewChannelModal = ({ show, closeModal }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>Close</Button>
-          <Button variant="primary" type="submit" disabled={!formik.isValid} active={formik.isValid}>Add channel</Button>
+          <Button variant="primary" type="submit" disabled={!formik.isValid} active={formik.isValid}>Rename channel</Button>
         </Modal.Footer>
       </Form>
     </Modal>
   );
 };
-export default AddNewChannelModal;
+export default RenameChannelModal;

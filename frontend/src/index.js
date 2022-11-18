@@ -15,9 +15,7 @@ root.render(
     <Provider store={store}>
       <CurrentUserProvider>
         <CurrentSocketProvider>
-
           <App />
-
         </CurrentSocketProvider>
       </CurrentUserProvider>
     </Provider>
