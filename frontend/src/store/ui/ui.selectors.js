@@ -5,4 +5,14 @@ const activeChannelIdSelector = createSelector(
   (ui) => ui.activeChannelId,
 );
 
-export default activeChannelIdSelector;
+const deletedChannelIdSelector = createSelector(
+  (state) => state.ui,
+  (ui) => ui.deletedChannelId,
+);
+
+const renamedChannelIdSelector = createSelector(
+  (state) => state.ui,
+  (ui) => ui.renamedChannelId,
+);
+
+export { activeChannelIdSelector, deletedChannelIdSelector, renamedChannelIdSelector };
