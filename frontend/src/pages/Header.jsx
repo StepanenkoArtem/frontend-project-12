@@ -7,12 +7,7 @@ import { useCurrentUser } from '../contexts/CurrentUser';
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useCurrentUser();
-
-  const logout = () => {
-    window.localStorage.removeItem('token');
-    setCurrentUser();
-  };
+  const { currentUser, logOut } = useCurrentUser();
 
   useEffect(() => {
     if (currentUser) {
@@ -24,13 +19,15 @@ const Header = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <a className="navbar-brand" href="/">{t('header.title')}</a>
+        {currentUser && (
         <Button
           variant="primary"
           className="btn btn-primary"
-          onClick={logout}
+          onClick={logOut}
         >
           {t('header.signOutButton')}
         </Button>
+        )}
       </div>
     </nav>
   );

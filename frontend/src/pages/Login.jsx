@@ -1,39 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
-import axios from 'axios';
-
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useCurrentUser } from '../contexts/CurrentUser';
-import ApiPaths from '../config/ApiPaths';
-
+import { Link, useNavigate } from 'react-router-dom';
 import loginSchema from '../validationSchemas/login';
-import { useCurrentSocket } from '../contexts/CurrentSocket';
+import { useCurrentUser } from '../contexts/CurrentUser';
 
 const Login = () => {
-  const { setCurrentUser } = useCurrentUser();
-  const { socket } = useCurrentSocket();
-  const [authError, setAuthError] = useState(null);
   const errorTipTarget = useRef(null);
+  const { logIn, error, currentUser } = useCurrentUser();
 
   const navigate = useNavigate();
-  const handleLogin = async ({ password, username }) => {
-    const body = { password, username };
-    const config = {
-      responseType: 'json',
-    };
-    try {
-      const { data } = await axios.post(ApiPaths.login, body, config);
-      localStorage.setItem('token', data.token);
-      setCurrentUser({ username: data.username, authorized: !!data.username });
-      socket.connect();
+
+  useEffect(() => {
+    if (currentUser) {
       navigate('/');
-    } catch (e) {
-      await setAuthError(e.response);
     }
-  };
+  }, [currentUser, navigate]);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -41,7 +26,7 @@ const Login = () => {
     },
     validationSchema: loginSchema,
     validateOnBlur: true,
-    onSubmit: handleLogin,
+    onSubmit: logIn,
   });
 
   return (
@@ -58,10 +43,10 @@ const Login = () => {
                     name="username"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.username}
+                    value={formik.values.username.trim()}
                     placeholder="Your username"
                     required
-                    isInvalid={!!authError}
+                    isInvalid={!!error}
                   />
 
                 </Form.Group>
@@ -73,15 +58,15 @@ const Login = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     placeholder="Your password"
-                    value={formik.values.password}
+                    value={formik.values.password.trim()}
                     ref={errorTipTarget}
                     required
-                    isInvalid={!!authError}
+                    isInvalid={!!error}
                   />
 
                 </Form.Group>
-                <Overlay target={errorTipTarget.current} show={!!authError} placement="bottom">
-                  {authError && (
+                {error && (
+                <Overlay target={errorTipTarget.current} show={!!error} placement="bottom">
                   <div
                     style={{
                       position: 'absolute',
@@ -91,16 +76,18 @@ const Login = () => {
                       borderRadius: 3,
                     }}
                   >
-                    {authError.data.message}
+                    {error}
                   </div>
-                  )}
                 </Overlay>
+                )}
                 <Button variant="primary" type="submit">
                   Enter
                 </Button>
               </Form>
             </Card.Body>
-            <Card.Footer>Registration</Card.Footer>
+            <Card.Footer>
+              <Link to="/signup">Registration</Link>
+            </Card.Footer>
           </Card>
         </Col>
       </Row>

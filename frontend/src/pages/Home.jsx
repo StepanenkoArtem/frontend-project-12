@@ -6,9 +6,8 @@ import { useCurrentUser } from '../contexts/CurrentUser';
 
 const Home = () => {
   const { currentUser } = useCurrentUser();
-  const token = window.localStorage.getItem('token');
 
-  return (currentUser || token
+  return (currentUser
     ? (
       <div className="d-flex flex-column h-100">
         <Header />

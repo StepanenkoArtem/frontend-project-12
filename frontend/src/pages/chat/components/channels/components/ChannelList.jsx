@@ -45,7 +45,6 @@ const ChannelList = () => {
             const isActive = id === activeChannelId;
             const variant = isActive ? 'secondary' : '';
             const isRemovable = channels.entities[id].removable;
-            console.log(id);
             return (
               <Nav.Item key={id} className="nav-item w-100">
                 <Dropdown as={ButtonGroup} className="d-flex justify-content-between">

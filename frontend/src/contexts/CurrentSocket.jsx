@@ -1,5 +1,5 @@
 import React, {
-  createContext, useContext, useMemo,
+  createContext, useContext, useEffect, useMemo,
 } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,10 @@ export const CurrentSocketProvider = ({ children }) => {
       auth: { token },
     },
   );
+
+  useEffect(() => {
+    socket.connect();
+  }, [token]);
 
   const memoizedSocket = useMemo(() => (
     { socket }), [socket]);
