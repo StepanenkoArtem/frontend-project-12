@@ -7,12 +7,14 @@ import {
 import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import SignUp from './pages/SignUp';
 
 const App = () => (
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </Router>
