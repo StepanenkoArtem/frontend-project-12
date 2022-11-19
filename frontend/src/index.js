@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Provider } from 'react-redux';
@@ -12,13 +12,15 @@ import { CurrentSocketProvider } from './contexts/CurrentSocket';
 const root = ReactDOM.createRoot(document.getElementById('chat'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <CurrentUserProvider>
-        <CurrentSocketProvider>
-          <App />
-        </CurrentSocketProvider>
-      </CurrentUserProvider>
-    </Provider>
+    <Suspense fallback="Is loading">
+      <Provider store={store}>
+        <CurrentUserProvider>
+          <CurrentSocketProvider>
+            <App />
+          </CurrentSocketProvider>
+        </CurrentUserProvider>
+      </Provider>
+    </Suspense>
   </React.StrictMode>,
 );
 

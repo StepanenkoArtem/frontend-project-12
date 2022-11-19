@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button, Card, Col, Container, Form, Overlay, Row,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import Header from './Header';
 import { useCurrentUser } from '../contexts/CurrentUser';
 
@@ -21,8 +22,17 @@ const signUpSchema = Yup.object({
 const SignUp = () => {
   const errorTipTarget = useRef(null);
   const navigate = useNavigate();
-  const { signUp, currentUser, error } = useCurrentUser();
+  const { signUp, currentUser } = useCurrentUser();
+  const [error, setError] = useState('');
+  const { t } = useTranslation();
 
+  const handleSignUp = async ({ password, username }) => {
+    try {
+      await signUp({ password, username });
+    } catch (e) {
+      setError(e.response.data.message);
+    }
+  };
   useEffect(() => {
     if (currentUser) {
       navigate('/');
@@ -38,7 +48,7 @@ const SignUp = () => {
     validateOnMount: false,
     validateOnBlur: true,
     validationSchema: signUpSchema,
-    onSubmit: signUp,
+    onSubmit: handleSignUp,
   });
 
   return (
@@ -58,7 +68,7 @@ const SignUp = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.username.trim()}
-                      placeholder="Your username"
+                      placeholder={t('placeholders.username')}
                       required
                       isInvalid={!!error}
                     />
@@ -71,7 +81,7 @@ const SignUp = () => {
                       name="password"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      placeholder="Your password"
+                      placeholder={t('placeholders.password')}
                       value={formik.values.password.trim()}
                       ref={errorTipTarget}
                       required
@@ -87,7 +97,7 @@ const SignUp = () => {
                       name="passwordConfirmation"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      placeholder="Your password"
+                      placeholder={t('placeholders.passwordConfirmation')}
                       value={formik.values.passwordConfirmation.trim()}
                       ref={errorTipTarget}
                       required
@@ -107,18 +117,17 @@ const SignUp = () => {
                         borderRadius: 3,
                       }}
                     >
-                      {error}
+                      {t(`error.${error}`)}
                     </div>
-
                   </Overlay>
                   )}
                   <Button variant="primary" type="submit" disabled={!formik.isValid}>
-                    Registration
+                    {t('registration')}
                   </Button>
                 </Form>
               </Card.Body>
               <Card.Footer>
-                <Link to="/login">Sign In</Link>
+                <Link to="/login">{t('signIn')}</Link>
               </Card.Footer>
             </Card>
           </Col>

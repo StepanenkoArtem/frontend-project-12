@@ -1,17 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, Overlay,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import loginSchema from '../validationSchemas/login';
 import { useCurrentUser } from '../contexts/CurrentUser';
 
 const Login = () => {
   const errorTipTarget = useRef(null);
-  const { logIn, error, currentUser } = useCurrentUser();
+  const [error, setError] = useState();
+  const { logIn, currentUser } = useCurrentUser();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
+
+  const handleLogin = async ({ password, username }) => {
+    try {
+      await logIn({ password, username });
+    } catch (e) {
+      setError(e.response.data.message);
+    }
+  };
 
   useEffect(() => {
     if (currentUser) {
@@ -26,7 +37,7 @@ const Login = () => {
     },
     validationSchema: loginSchema,
     validateOnBlur: true,
-    onSubmit: logIn,
+    onSubmit: handleLogin,
   });
 
   return (
@@ -44,7 +55,7 @@ const Login = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.username.trim()}
-                    placeholder="Your username"
+                    placeholder={t('placeholders.username')}
                     required
                     isInvalid={!!error}
                   />
@@ -57,7 +68,7 @@ const Login = () => {
                     name="password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    placeholder="Your password"
+                    placeholder={t('placeholders.password')}
                     value={formik.values.password.trim()}
                     ref={errorTipTarget}
                     required
@@ -76,17 +87,17 @@ const Login = () => {
                       borderRadius: 3,
                     }}
                   >
-                    {error}
+                    {t(`error.${error}`)}
                   </div>
                 </Overlay>
                 )}
                 <Button variant="primary" type="submit">
-                  Enter
+                  {t('signIn')}
                 </Button>
               </Form>
             </Card.Body>
             <Card.Footer>
-              <Link to="/signup">Registration</Link>
+              <Link to="/signup">{t('registration')}</Link>
             </Card.Footer>
           </Card>
         </Col>
