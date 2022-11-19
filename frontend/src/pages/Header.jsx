@@ -25,7 +25,7 @@ const Header = () => {
           className="btn btn-primary"
           onClick={logOut}
         >
-          {t('header.signOutButton')}
+          {t('signOut')}
         </Button>
         )}
       </div>

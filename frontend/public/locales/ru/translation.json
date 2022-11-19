@@ -1,14 +1,29 @@
 {
   "header": {
-    "title": "Hexlet Chat",
-    "signOutButton": "Выйти"
+    "title": "Hexlet Chat"
   },
   "channels": {
     "header": {
       "title": "Каналы"
-    }
+    },
+    "createNewChannel": "Создать новый канал",
+    "removeChannel": "Удалить канал",
+    "renameChannel": "Переименовать канал"
   },
   "conversation": {
     "addNewMessageBtn": "&#xF137"
-  }
+  },
+  "error": {
+    "Conflict": "Пользователь с таким именем уже зарегистрирован",
+    "Unauthorized": "Неправильное имя пользователя или пароль"
+  },
+  "placeholders": {
+    "username": "Никнейм",
+    "password": "Пароль",
+    "passwordConfirmation": "Подтверждение пароля"
+  },
+  "registration": "Регистрация",
+  "signIn": "Вход",
+  "signOut": "Выйти",
+  "cancel": "Отмена"
 }

@@ -5,6 +5,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
 import { renameChannel } from '../../../../../store/channels/channels.slice';
@@ -17,6 +18,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
   const channelId = useSelector(renamedChannelIdSelector);
   const dispatch = useDispatch();
   const { socket } = useCurrentSocket();
+  const { t } = useTranslation();
 
   const channelSchema = Yup.object({
     channelName: Yup.string().required().ensure().notOneOf(channelNames),
@@ -40,7 +42,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
     <Modal show={show}>
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Header closeButton onClick={closeModal}>
-          <Modal.Title>Rename channel</Modal.Title>
+          <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Control
@@ -58,7 +60,14 @@ const RenameChannelModal = ({ show, closeModal }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>Close</Button>
-          <Button variant="primary" type="submit" disabled={!formik.isValid} active={formik.isValid}>Rename channel</Button>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={!formik.isValid}
+            active={formik.isValid}
+          >
+            {t('channels.renameChannel')}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

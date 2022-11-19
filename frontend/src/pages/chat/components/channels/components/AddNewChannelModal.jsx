@@ -5,6 +5,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
 import { createNewChannel } from '../../../../../store/channels/channels.slice';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
@@ -13,6 +14,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
   const dispatch = useDispatch();
   const { socket } = useCurrentSocket();
+  const { t } = useTranslation();
 
   const channelSchema = Yup.object({
     channelName: Yup.string().required().ensure().notOneOf(channelNames),
@@ -36,7 +38,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
     <Modal show={show}>
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Header closeButton onClick={closeModal}>
-          <Modal.Title>Create new channel</Modal.Title>
+          <Modal.Title>{t('channels.createNewChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Control
@@ -53,8 +55,15 @@ const AddNewChannelModal = ({ show, closeModal }) => {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>Close</Button>
-          <Button variant="primary" type="submit" disabled={!formik.isValid} active={formik.isValid}>Add channel</Button>
+          <Button variant="secondary" onClick={closeModal}>{t('cancel')}</Button>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={!formik.isValid}
+            active={formik.isValid}
+          >
+            {t('channels.createNewChannel')}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>
