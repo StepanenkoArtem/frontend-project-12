@@ -1,8 +1,11 @@
 import React, {
-  createContext, useMemo, useState, useContext,
+  createContext, useMemo, useState, useContext, useEffect,
 } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import ApiPaths from '../config/ApiPaths';
+import { setAlert } from '../store/ui/ui.slice';
+import { ALERT_TYPES } from '../config/constants';
 
 export const CurrentUserContext = createContext({
   currentUser: null,
@@ -13,6 +16,7 @@ export const CurrentUserContext = createContext({
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
 
   const setCurrentSession = (data) => {
     localStorage.setItem('token', data.token);
@@ -23,8 +27,16 @@ export const CurrentUserProvider = ({ children }) => {
   const logIn = async ({ password, username }) => {
     const body = { password, username };
     const config = { responseType: 'json' };
-    const { data } = await axios.post(ApiPaths.login, body, config);
-    setCurrentSession(data);
+
+    try {
+      const { data } = await axios.post(ApiPaths.login, body, config);
+      setCurrentSession(data);
+    } catch (e) {
+      if (e.response.status === 401) {
+        throw e;
+      }
+      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+    }
   };
 
   const logOut = () => {
@@ -36,9 +48,24 @@ export const CurrentUserProvider = ({ children }) => {
   const signUp = async ({ password, username }) => {
     const body = { password, username };
     const config = { responseType: 'json' };
-    const { data } = await axios.post(ApiPaths.signUp, body, config);
-    setCurrentSession(data);
+    try {
+      const { data } = await axios.post(ApiPaths.signUp, body, config);
+      setCurrentSession(data);
+    } catch (e) {
+      if (e.response.status === 409) {
+        throw e;
+      }
+      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+    }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    if (token && username) {
+      setCurrentUser({ username });
+    }
+  }, []);
 
   const memoizedUserContext = useMemo(
     () => ({

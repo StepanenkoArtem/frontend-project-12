@@ -2,26 +2,37 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CurrentUserProvider } from './contexts/CurrentUser';
 import './i18n';
 import store from './store/index';
 import { CurrentSocketProvider } from './contexts/CurrentSocket';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToasterProvider } from './contexts/Toaster';
+import { TOASTER_AUTO_CLOSE_TIME } from './config/constants';
 
 const root = ReactDOM.createRoot(document.getElementById('chat'));
 root.render(
   <React.StrictMode>
     <Suspense fallback="Is loading">
       <Provider store={store}>
-        <CurrentUserProvider>
-          <CurrentSocketProvider>
-            <App />
-          </CurrentSocketProvider>
-        </CurrentUserProvider>
+        <ToasterProvider>
+          <CurrentUserProvider>
+            <CurrentSocketProvider>
+              <App />
+              <ToastContainer
+                pauseOnFocusLoss={false}
+                autoClose={TOASTER_AUTO_CLOSE_TIME}
+              />
+            </CurrentSocketProvider>
+          </CurrentUserProvider>
+        </ToasterProvider>
       </Provider>
     </Suspense>
-  </React.StrictMode>,
+  </React.StrictMode>
+  ,
 );
 
 // If you want to start measuring performance in your ui, pass a function

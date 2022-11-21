@@ -48,6 +48,7 @@ const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(createNewChannel.rejected, (state, action) => {
+        console.log(action.error);
         state.loadingStatus = 'failed';
         state.error = action.error;
       })
