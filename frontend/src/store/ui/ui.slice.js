@@ -1,11 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  addChannel, deleteChannel, updateChannel,
+  createNewChannel,
+  removeChannel,
+  renameChannel,
 } from '../channels/channels.slice';
+import { ALERT_TYPES } from '../../config/constants';
 
 const uiSlice = createSlice({
   name: 'ui',
-  initialState: { activeChannelId: 1 },
+  initialState: {
+    activeChannelId: 1,
+    alert: {
+      type: '',
+      message: '',
+    },
+  },
   reducers: {
     setActiveChannelId: (state, action) => {
       state.activeChannelId = action.payload;
@@ -16,23 +25,46 @@ const uiSlice = createSlice({
     setRenamedChannelId: (state, action) => {
       state.renamedChannelId = action.payload;
     },
+    setAlert: (state, action) => {
+      state.alert.message = action.payload.message;
+      state.alert.type = action.payload.type;
+    },
+    removeAlert: (state) => {
+      state.alert.message = null;
+      state.alert.type = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addChannel, (state, action) => {
-        state.activeChannelId = action.payload.id;
+      .addCase(removeChannel.fulfilled, (state) => {
+        state.alert.type = ALERT_TYPES.SUCCESS;
+        state.alert.message = 'alerts.channelWasRemoved';
       })
-      .addCase(updateChannel, (state) => {
-        state.renamedChannelId = null;
+      .addCase(removeChannel.rejected, (state, action) => {
+        state.alert.type = ALERT_TYPES.ERROR;
+        state.alert.message = action.payload.error.message;
       })
-      .addCase(deleteChannel, (state) => {
-        state.deletedChannelId = null;
+      .addCase(renameChannel.fulfilled, (state) => {
+        state.alert.type = ALERT_TYPES.SUCCESS;
+        state.alert.message = 'alerts.channelWasRenamed';
+      })
+      .addCase(createNewChannel.fulfilled, (state) => {
+        state.alert.type = ALERT_TYPES.SUCCESS;
+        state.alert.message = 'alerts.channelWasCreated';
+      })
+      .addCase(createNewChannel.rejected, (state, action) => {
+        state.alert.type = ALERT_TYPES.ERROR;
+        state.alert.message = action.payload;
       });
   },
 });
 
 export const {
-  setActiveChannelId, setDeletedChannelId, setRenamedChannelId,
+  setActiveChannelId,
+  setDeletedChannelId,
+  setRenamedChannelId,
+  setAlert,
+  removeAlert,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

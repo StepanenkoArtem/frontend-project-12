@@ -15,7 +15,13 @@
   },
   "error": {
     "Conflict": "Пользователь с таким именем уже зарегистрирован",
-    "Unauthorized": "Неправильное имя пользователя или пароль"
+    "Unauthorized": "Неправильное имя пользователя или пароль",
+    "Network Error": "Ошибка соединения"
+  },
+  "alerts": {
+    "channelWasRemoved": "Канал успешно удален",
+    "channelWasRenamed": "Канал успешно переименован",
+    "channelWasCreated": "Канал успешно создан"
   },
   "placeholders": {
     "username": "Никнейм",

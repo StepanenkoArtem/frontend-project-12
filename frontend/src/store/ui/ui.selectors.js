@@ -15,4 +15,14 @@ const renamedChannelIdSelector = createSelector(
   (ui) => ui.renamedChannelId,
 );
 
-export { activeChannelIdSelector, deletedChannelIdSelector, renamedChannelIdSelector };
+const alertSelector = createSelector(
+  (state) => state.ui,
+  (ui) => ui.alert,
+);
+
+export {
+  activeChannelIdSelector,
+  deletedChannelIdSelector,
+  renamedChannelIdSelector,
+  alertSelector,
+};
