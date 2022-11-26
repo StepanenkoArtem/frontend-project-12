@@ -24,39 +24,10 @@ export const CurrentUserProvider = ({ children }) => {
     setCurrentUser({ username: data.username });
   };
 
-  const logIn = async ({ password, username }) => {
-    const body = { password, username };
-    const config = { responseType: 'json' };
-
-    try {
-      const { data } = await axios.post(ApiPaths.login, body, config);
-      setCurrentSession(data);
-    } catch (e) {
-      if (e.response.status === 401) {
-        throw e;
-      }
-      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
-    }
-  };
-
   const logOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     setCurrentUser(null);
-  };
-
-  const signUp = async ({ password, username }) => {
-    const body = { password, username };
-    const config = { responseType: 'json' };
-    try {
-      const { data } = await axios.post(ApiPaths.signUp, body, config);
-      setCurrentSession(data);
-    } catch (e) {
-      if (e.response.status === 409) {
-        throw e;
-      }
-      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
-    }
   };
 
   useEffect(() => {
@@ -68,10 +39,41 @@ export const CurrentUserProvider = ({ children }) => {
   }, []);
 
   const memoizedUserContext = useMemo(
-    () => ({
-      currentUser, logIn, logOut, signUp,
-    }),
-    [currentUser, logIn, signUp],
+    () => {
+      const logIn = async ({ password, username }) => {
+        const body = { password, username };
+        const config = { responseType: 'json' };
+
+        try {
+          const { data } = await axios.post(ApiPaths.login, body, config);
+          setCurrentSession(data);
+        } catch (e) {
+          if (e.response.status === 401) {
+            throw e;
+          }
+          dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+        }
+      };
+
+      const signUp = async ({ password, username }) => {
+        const body = { password, username };
+        const config = { responseType: 'json' };
+        try {
+          const { data } = await axios.post(ApiPaths.signUp, body, config);
+          setCurrentSession(data);
+        } catch (e) {
+          if (e.response.status === 409) {
+            throw e;
+          }
+          dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+        }
+      };
+
+      return {
+        currentUser, logIn, logOut, signUp,
+      };
+    },
+    [currentUser],
   );
 
   return (
