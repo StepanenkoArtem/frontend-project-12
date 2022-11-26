@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Container, Row, Col, Card, Form, Button, Overlay,
+  Container, Row, Col, Card, Form, Button, Overlay, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
@@ -51,32 +51,42 @@ const Login = () => {
               <Card.Body className="row p-5">
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      id="username"
-                      name="username"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.username.trim()}
-                      placeholder={t('placeholders.username')}
-                      required
-                      isInvalid={!!error}
-                    />
+                    <FloatingLabel
+                      label={t('placeholders.username')}
+                      className="mb-3 text-muted"
+                    >
+                      <Form.Control
+                        type="text"
+                        id="username"
+                        name="username"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.username.trim()}
+                        placeholder={t('placeholders.username')}
+                        required
+                        isInvalid={!!error}
+                      />
+                    </FloatingLabel>
 
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      id="password"
-                      name="password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder={t('placeholders.password')}
-                      value={formik.values.password.trim()}
-                      ref={errorTipTarget}
-                      required
-                      isInvalid={!!error}
-                    />
+                    <FloatingLabel
+                      label={t('placeholders.password')}
+                      className="mb-3 text-muted"
+                    >
+                      <Form.Control
+                        type="password"
+                        id="password"
+                        name="password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder={t('placeholders.password')}
+                        value={formik.values.password.trim()}
+                        ref={errorTipTarget}
+                        required
+                        isInvalid={!!error}
+                      />
+                    </FloatingLabel>
 
                   </Form.Group>
                   {error && (
