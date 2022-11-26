@@ -4,20 +4,13 @@ import {
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../contexts/CurrentUser';
 import Header from './Header';
-
-const signUpSchema = Yup.object({
-  username: Yup.string().min(3).required(),
-  password: Yup.string().min(6).required(),
-  passwordConfirmation: Yup.string()
-    .when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
-});
+import signUpSchema from '../validationSchemas/signup';
 
 const SignUp = () => {
-  const errorTipTarget = useRef(null);
+  const errorTarget = useRef(null);
   const navigate = useNavigate();
   const { signUp, currentUser } = useCurrentUser();
   const [error, setError] = useState('');
@@ -30,11 +23,6 @@ const SignUp = () => {
       setError(e.response.data.message);
     }
   };
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
-  }, [currentUser, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -44,9 +32,15 @@ const SignUp = () => {
     },
     validateOnMount: false,
     validateOnBlur: true,
-    validationSchema: signUpSchema,
+    validationSchema: signUpSchema(),
     onSubmit: handleSignUp,
   });
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -71,8 +65,14 @@ const SignUp = () => {
                         value={formik.values.username.trim()}
                         placeholder={t('placeholders.username')}
                         required
-                        isInvalid={!!error}
+                        isInvalid={!!formik.errors.username}
                       />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.username}
+                      </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
@@ -88,14 +88,17 @@ const SignUp = () => {
                         onBlur={formik.handleBlur}
                         placeholder={t('placeholders.password')}
                         value={formik.values.password.trim()}
-                        ref={errorTipTarget}
                         required
-                        isInvalid={!!error}
+                        isInvalid={!!formik.errors.password}
                       />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.password}
+                      </Form.Control.Feedback>
                     </FloatingLabel>
-
                   </Form.Group>
-
                   <Form.Group className="mb-3">
                     <FloatingLabel
                       label={t('placeholders.passwordConfirmation')}
@@ -109,14 +112,25 @@ const SignUp = () => {
                         onBlur={formik.handleBlur}
                         placeholder={t('placeholders.passwordConfirmation')}
                         value={formik.values.passwordConfirmation.trim()}
-                        ref={errorTipTarget}
+                        ref={errorTarget}
                         required
-                        isInvalid={!!error}
+                        isInvalid={!!formik.errors.passwordConfirmation}
+
                       />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.passwordConfirmation}
+                      </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
                   {error && (
-                  <Overlay target={errorTipTarget.current} show={!!error} placement="bottom">
+                  <Overlay
+                    target={errorTarget.current}
+                    show={!!error}
+                    placement="bottom-start"
+                  >
                     <div
                       style={{
                         position: 'absolute',

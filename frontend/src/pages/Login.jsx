@@ -90,7 +90,7 @@ const Login = () => {
 
                   </Form.Group>
                   {error && (
-                  <Overlay target={errorTipTarget.current} show={!!error} placement="bottom">
+                  <Overlay target={errorTipTarget.current} show={!!error} placement="bottom-start">
                     <div
                       style={{
                         position: 'absolute',
