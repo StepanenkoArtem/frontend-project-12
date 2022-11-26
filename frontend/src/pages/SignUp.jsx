@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Button, Card, Col, Container, Form, Overlay, Row,
+  Button, Card, Col, Container, Form, Overlay, Row, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
@@ -58,18 +58,23 @@ const SignUp = () => {
               <Card.Body className="row p-5">
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      id="username"
-                      name="username"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.username.trim()}
-                      placeholder={t('placeholders.username')}
-                      required
-                      isInvalid={!!error}
-                    />
-
+                    <FloatingLabel
+                      controlId="floatingInput"
+                      label={t('placeholders.username')}
+                      className="mb-3 text-muted"
+                    >
+                      <Form.Control
+                        type="text"
+                        id="username"
+                        name="username"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.username.trim()}
+                        placeholder={t('placeholders.username')}
+                        required
+                        isInvalid={!!error}
+                      />
+                    </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Control
