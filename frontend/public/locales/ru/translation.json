@@ -27,8 +27,11 @@
     "channelWasRenamed": "Канал успешно переименован",
     "channelWasCreated": "Канал успешно создан"
   },
+  "label": {
+    "username": "Имя пользователя"
+  },
   "placeholders": {
-    "username": "Имя пользователя",
+    "username": "От 3 до 2 символов",
     "password": "Пароль",
     "passwordConfirmation": "Подтвердите пароль"
   },
