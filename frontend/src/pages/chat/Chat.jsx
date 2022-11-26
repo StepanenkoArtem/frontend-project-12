@@ -18,7 +18,7 @@ const Chat = () => {
       dispatch(addChannels(data.channels));
     };
     loadInitialData();
-  }, []);
+  }, [client, dispatch]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
