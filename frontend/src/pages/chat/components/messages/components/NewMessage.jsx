@@ -6,19 +6,21 @@ import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
 import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
+import useProfanity from '../../../../../hooks/useProfanity';
 
 const NewMessage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const { currentUser } = useCurrentUser();
   const activeChannelId = useSelector(activeChannelIdSelector);
+  const profanity = useProfanity();
 
   const { socket } = useCurrentSocket();
 
   const sendMessage = (e) => {
     e.preventDefault();
     setIsSending(true);
-    socket.emit('newMessage', { body: newMessage, channelId: activeChannelId, username: currentUser?.username }, () => {
+    socket.emit('newMessage', { body: profanity.clean(newMessage), channelId: activeChannelId, username: currentUser?.username }, () => {
       setNewMessage('');
       setIsSending(false);
     });
