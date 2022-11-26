@@ -59,7 +59,6 @@ const SignUp = () => {
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mb-3">
                     <FloatingLabel
-                      controlId="username"
                       label={t('placeholders.username')}
                       className="mb-3 text-muted"
                     >
@@ -78,7 +77,6 @@ const SignUp = () => {
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <FloatingLabel
-                      controlId="password"
                       label={t('placeholders.password')}
                       className="mb-3 text-muted"
                     >
@@ -100,7 +98,6 @@ const SignUp = () => {
 
                   <Form.Group className="mb-3">
                     <FloatingLabel
-                      controlId="passwordConfirmation"
                       label={t('placeholders.passwordConfirmation')}
                       className="mb-3 text-muted"
                     >
