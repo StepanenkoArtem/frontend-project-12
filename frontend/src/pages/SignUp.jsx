@@ -10,8 +10,8 @@ import { useCurrentUser } from '../contexts/CurrentUser';
 import Header from './Header';
 
 const signUpSchema = Yup.object({
-  username: Yup.string().required(),
-  password: Yup.string().required(),
+  username: Yup.string().min(3).required(),
+  password: Yup.string().min(6).required(),
   passwordConfirmation: Yup.string()
     .when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
 });
