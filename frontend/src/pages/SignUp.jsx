@@ -56,12 +56,12 @@ const SignUp = () => {
                       label={t('label.username')}
                       className="mb-3 text-muted"
                       htmlFor="username"
+                      controlId="username"
                     >
                       <Form.Control
                         placeholder={t('placeholders.username')}
                         name="username"
                         autocomplete="username"
-                        id="username"
                         required
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
