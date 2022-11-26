@@ -80,10 +80,10 @@ const SignUp = () => {
                     <FloatingLabel
                       label={t('placeholders.password')}
                       className="mb-3 text-muted"
+                      controlId="password"
                     >
                       <Form.Control
                         type="password"
-                        id="password"
                         name="password"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -104,10 +104,10 @@ const SignUp = () => {
                     <FloatingLabel
                       label={t('placeholders.passwordConfirmation')}
                       className="mb-3 text-muted"
+                      controlId="passwordConfirmation"
                     >
                       <Form.Control
                         type="password"
-                        id="passwordConfirmation"
                         name="passwordConfirmation"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
