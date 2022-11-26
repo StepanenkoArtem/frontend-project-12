@@ -19,7 +19,8 @@
     "Network Error": "Ошибка соединения",
     "required_field": "Обязательное поле",
     "min_length": "Не менее {{min}} символов",
-    "passwords_should_match": "Пароли не совпадают"
+    "length_range": "От {{min}} до {{max}} символов",
+    "passwords_should_match": "Пароли должны совпадать"
   },
   "alerts": {
     "channelWasRemoved": "Канал успешно удален",
