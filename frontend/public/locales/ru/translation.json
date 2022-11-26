@@ -24,7 +24,7 @@
     "channelWasCreated": "Канал успешно создан"
   },
   "placeholders": {
-    "username": "Никнейм",
+    "username": "Имя пользователя",
     "password": "Пароль",
     "passwordConfirmation": "Подтверждение пароля"
   },
