@@ -1,5 +1,5 @@
 const rollbarConfig = {
-  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+  accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
   environment: process.env.ENV,
 };
 
