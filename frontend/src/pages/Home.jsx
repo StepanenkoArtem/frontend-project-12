@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Chat from './chat/Chat';
-import Header from './Header';
 import { useCurrentUser } from '../contexts/CurrentUser';
+import Header from './Header';
 
 const Home = () => {
   const { currentUser } = useCurrentUser();
