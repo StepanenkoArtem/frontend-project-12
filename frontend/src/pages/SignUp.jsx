@@ -59,7 +59,7 @@ const SignUp = () => {
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mb-3">
                     <FloatingLabel
-                      controlId="floatingInput"
+                      controlId="username"
                       label={t('placeholders.username')}
                       className="mb-3 text-muted"
                     >
@@ -77,37 +77,47 @@ const SignUp = () => {
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      id="password"
-                      name="password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder={t('placeholders.password')}
-                      value={formik.values.password.trim()}
-                      ref={errorTipTarget}
-                      required
-                      isInvalid={!!error}
-                    />
+                    <FloatingLabel
+                      controlId="password"
+                      label={t('placeholders.password')}
+                      className="mb-3 text-muted"
+                    >
+                      <Form.Control
+                        type="password"
+                        id="password"
+                        name="password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder={t('placeholders.password')}
+                        value={formik.values.password.trim()}
+                        ref={errorTipTarget}
+                        required
+                        isInvalid={!!error}
+                      />
+                    </FloatingLabel>
 
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      id="passwordConfirmation"
-                      name="passwordConfirmation"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder={t('placeholders.passwordConfirmation')}
-                      value={formik.values.passwordConfirmation.trim()}
-                      ref={errorTipTarget}
-                      required
-                      isInvalid={!!error}
-                    />
-
+                    <FloatingLabel
+                      controlId="passwordConfirmation"
+                      label={t('placeholders.passwordConfirmation')}
+                      className="mb-3 text-muted"
+                    >
+                      <Form.Control
+                        type="password"
+                        id="passwordConfirmation"
+                        name="passwordConfirmation"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder={t('placeholders.passwordConfirmation')}
+                        value={formik.values.passwordConfirmation.trim()}
+                        ref={errorTipTarget}
+                        required
+                        isInvalid={!!error}
+                      />
+                    </FloatingLabel>
                   </Form.Group>
-
                   {error && (
                   <Overlay target={errorTipTarget.current} show={!!error} placement="bottom">
                     <div
