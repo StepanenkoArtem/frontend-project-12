@@ -3,12 +3,12 @@ import i18n from '../i18n';
 
 const signUpSchema = () => Yup.object({
   username: Yup.string()
+    .required(i18n.t('error.required_field'))
     .test(
       'length_range',
-      i18n.t('error.length_range', { min: 6, max: 20 }),
-      (value) => value.length >= 6 && value.length <= 20,
-    )
-    .required(i18n.t('error.required_field')),
+      i18n.t('error.length_range', { min: 3, max: 20 }),
+      (value) => value?.length >= 3 && value?.length <= 20,
+    ),
   password: Yup.string()
     .min(6, i18n.t('error.min_length', { min: 6 }))
     .required(i18n.t('error.required_field')),
