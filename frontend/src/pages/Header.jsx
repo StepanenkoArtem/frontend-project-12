@@ -13,7 +13,7 @@ const Header = () => {
     if (currentUser) {
       navigate('/');
     }
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

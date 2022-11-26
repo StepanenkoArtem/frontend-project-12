@@ -26,7 +26,7 @@ export const ToasterProvider = ({ children }) => {
     types[alert.type](t(alert.message), {
       onChange: () => dispatch(removeAlert()),
     });
-  }, [alert]);
+  }, [alert, dispatch, t]);
 
   return (
     <Toaster.Provider value={useMemo(() => {}, [])}>

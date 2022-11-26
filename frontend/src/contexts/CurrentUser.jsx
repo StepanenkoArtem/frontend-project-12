@@ -71,7 +71,7 @@ export const CurrentUserProvider = ({ children }) => {
     () => ({
       currentUser, logIn, logOut, signUp,
     }),
-    [currentUser],
+    [currentUser, logIn, signUp],
   );
 
   return (
