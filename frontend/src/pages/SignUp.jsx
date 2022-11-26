@@ -144,7 +144,7 @@ const SignUp = () => {
                     </div>
                   </Overlay>
                   )}
-                  <Button variant="primary" type="submit" disabled={!formik.isValid}>
+                  <Button variant="primary" type="submit">
                     {t('registration')}
                   </Button>
                 </Form>
