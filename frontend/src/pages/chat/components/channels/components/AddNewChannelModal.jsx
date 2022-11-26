@@ -9,12 +9,14 @@ import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
 import { createNewChannel } from '../../../../../store/channels/channels.slice';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
+import useProfanity from '../../../../../hooks/useProfanity';
 
 const AddNewChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
   const dispatch = useDispatch();
   const { socket } = useCurrentSocket();
   const { t } = useTranslation();
+  const profanity = useProfanity();
 
   const channelSchema = Yup.object({
     channelName: Yup.string().required().ensure().notOneOf(channelNames),
@@ -29,7 +31,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
       closeModal();
-      dispatch(createNewChannel({ channelName, socket }));
+      dispatch(createNewChannel({ channelName: profanity.clean(channelName), socket }));
       formik.resetForm();
     },
   });

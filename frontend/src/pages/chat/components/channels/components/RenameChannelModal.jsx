@@ -12,6 +12,7 @@ import { renameChannel } from '../../../../../store/channels/channels.slice';
 import {
   renamedChannelIdSelector,
 } from '../../../../../store/ui/ui.selectors';
+import useProfanity from '../../../../../hooks/useProfanity';
 
 const RenameChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
@@ -19,6 +20,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
   const dispatch = useDispatch();
   const { socket } = useCurrentSocket();
   const { t } = useTranslation();
+  const profanity = useProfanity();
 
   const channelSchema = Yup.object({
     channelName: Yup.string().required().ensure().notOneOf(channelNames),
@@ -33,7 +35,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
       closeModal();
-      dispatch(renameChannel({ channelName, channelId, socket }));
+      dispatch(renameChannel({ channelName: profanity.clean(channelName), channelId, socket }));
       formik.resetForm();
     },
   });
