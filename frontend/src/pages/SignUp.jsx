@@ -55,17 +55,18 @@ const SignUp = () => {
                     <FloatingLabel
                       label={t('label.username')}
                       className="mb-3 text-muted"
+                      htmlFor="username"
                     >
                       <Form.Control
-                        type="text"
-                        id="username"
+                        placeholder={t('placeholders.username')}
                         name="username"
+                        autocomplete="username"
+                        id="username"
+                        required
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.username.trim()}
-                        placeholder={t('placeholders.username')}
-                        required
                         isInvalid={!!formik.errors.username}
+                        value={formik.values.username.trim()}
                       />
                       <Form.Control.Feedback
                         tooltip
