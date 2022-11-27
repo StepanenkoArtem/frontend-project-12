@@ -116,7 +116,6 @@ const SignUp = () => {
                         ref={errorTarget}
                         required
                         isInvalid={!!formik.errors.passwordConfirmation}
-
                       />
                       <Form.Control.Feedback
                         tooltip
