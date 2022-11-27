@@ -43,43 +43,52 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createNewChannel.pending, () => ({
+      .addCase(createNewChannel.pending, (state) => ({
+        ...state,
         loadingStatus: 'loading',
         error: null,
       }))
       .addCase(createNewChannel.rejected, (state, action) => ({
+        ...state,
         loadingStatus: 'failed',
         error: action.error,
       }))
-      .addCase(createNewChannel.fulfilled, () => ({
+      .addCase(createNewChannel.fulfilled, (state) => ({
+        ...state,
         loadingStatus: 'success',
         error: null,
       }));
 
     builder
-      .addCase(removeChannel.pending, () => ({
+      .addCase(removeChannel.pending, (state) => ({
+        ...state,
         loadingStatus: 'loading',
         error: null,
       }))
       .addCase(removeChannel.rejected, (state, action) => ({
+        ...state,
         loadingStatus: 'failed',
         error: action.error,
       }))
-      .addCase(removeChannel.fulfilled, () => ({
+      .addCase(removeChannel.fulfilled, (state) => ({
+        ...state,
         loadingStatus: 'success',
         error: null,
       }));
 
     builder
-      .addCase(renameChannel.pending, () => ({
+      .addCase(renameChannel.pending, (state) => ({
+        ...state,
         loadingStatus: 'loading',
         error: null,
       }))
       .addCase(renameChannel.rejected, (state, action) => ({
+        ...state,
         loadingStatus: 'failed',
         error: action.error,
       }))
-      .addCase(renameChannel.fulfilled, () => ({
+      .addCase(renameChannel.fulfilled, (state) => ({
+        ...state,
         loadingStatus: 'success',
         error: null,
       }));
