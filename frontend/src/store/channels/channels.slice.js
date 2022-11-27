@@ -30,7 +30,7 @@ export const renameChannel = createAsyncThunk(
   },
 );
 
-const channelsAdapter = createEntityAdapter();
+export const channelsAdapter = createEntityAdapter();
 
 const channelsSlice = createSlice({
   name: 'channels',

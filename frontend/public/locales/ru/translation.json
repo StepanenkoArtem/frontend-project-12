@@ -12,7 +12,11 @@
   },
   "conversation": {
     "addNewMessageBtn": "&#xF137",
-    "New message": "Новое сообщение"
+    "New message": "Новое сообщение",
+    "MessagesWithCount_zero": "{{count}} сообщений",
+    "MessagesWithCount_one": "{{count}} сообщение",
+    "MessagesWithCount_few": "{{count}} сообщения",
+    "MessagesWithCount_many": "{{count}} сообщений"
   },
   "error": {
     "Conflict": "Пользователь с таким именем уже зарегистрирован",

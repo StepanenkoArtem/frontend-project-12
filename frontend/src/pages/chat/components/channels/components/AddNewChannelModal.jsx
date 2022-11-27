@@ -39,6 +39,12 @@ const AddNewChannelModal = ({ show, closeModal }) => {
           <Modal.Title>{t('channels.createNewChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form.Label
+            className="visually-hidden"
+            htmlFor="channelName"
+          >
+            {t('placeholders.Channel name')}
+          </Form.Label>
           <Form.Control
             type="text"
             id="channelName"

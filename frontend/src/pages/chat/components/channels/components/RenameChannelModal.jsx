@@ -43,6 +43,12 @@ const RenameChannelModal = ({ show, closeModal }) => {
           <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form.Label
+            className="visually-hidden"
+            htmlFor="channelName"
+          >
+            {t('placeholders.Channel name')}
+          </Form.Label>
           <Form.Control
             type="text"
             id="channelName"
