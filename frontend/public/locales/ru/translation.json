@@ -28,7 +28,8 @@
     "channelWasCreated": "Канал успешно создан"
   },
   "label": {
-    "username": "Имя пользователя"
+    "username": "Имя пользователя",
+    "nickname": "Ваш ник"
   },
   "placeholders": {
     "username": "От 3 до 2 символов",
