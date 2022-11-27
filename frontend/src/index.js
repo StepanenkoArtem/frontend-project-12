@@ -4,16 +4,16 @@ import init from './init';
 import reportWebVitals from './reportWebVitals';
 
 const run = () => {
-  const token = localStorage.getItem('token');
-  const socketInstance = io(
-    'ws://localhost:5001',
-    {
-      transports: ['websocket', 'polling'],
-      path: '',
-      auth: { token },
-      timeout: 10000,
-    },
-  );
+  // const token = localStorage.getItem('token');
+  const socketInstance = io();
+  // 'ws://localhost:5001',
+  // {
+  //   transports: ['websocket', 'polling'],
+  //   path: '',
+  //   auth: { token },
+  //   timeout: 10000,
+  // },
+  // );
 
   const root = ReactDOM.createRoot(document.getElementById('chat'));
 
