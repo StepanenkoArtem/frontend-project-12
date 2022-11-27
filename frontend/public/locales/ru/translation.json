@@ -29,7 +29,7 @@
     "passwords_should_match": "Пароли должны совпадать"
   },
   "alerts": {
-    "channelWasRemoved": "Канал удален",
+    "channelWasRemoved": "Канал удалён",
     "channelWasRenamed": "Канал переименован",
     "channelWasCreated": "Канал создан"
   },
