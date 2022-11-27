@@ -55,14 +55,13 @@ const ChannelList = () => {
                     className={`w-100 rounded-0 text-start btn ${isActive && 'text-white'}`}
                     onClick={() => setActive(id)}
                   >
-                    <span className="visually-hidden">{t('channels.manageChannels')}</span>
                     {getChannelName(id)}
                   </Button>
 
                   {isRemovable && (
                     <>
                       <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" />
-
+                      <span className="visually-hidden">{t('channels.manageChannels')}</span>
                       <Dropdown.Menu variant={variant}>
                         <Dropdown.Item onClick={() => showRenameChannelModal(id)} key="renameChannel">
                           {t('channels.renameChannel')}
