@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
@@ -14,6 +15,7 @@ const NewMessage = () => {
   const { currentUser } = useCurrentUser();
   const activeChannelId = useSelector(activeChannelIdSelector);
   const profanity = useProfanity();
+  const { t } = useTranslation();
 
   const { socket } = useCurrentSocket();
 
@@ -37,6 +39,7 @@ const NewMessage = () => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             disabled={isSending}
+            aria-label={t('New Message')}
           />
           <Button type="submit" className="btn btn-group-vertical bg-white border-0" disabled={isSending}>
             <RightArrowIcon className="text-secondary" />

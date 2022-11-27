@@ -11,7 +11,8 @@
     "renameChannel": "Переименовать канал"
   },
   "conversation": {
-    "addNewMessageBtn": "&#xF137"
+    "addNewMessageBtn": "&#xF137",
+    "New message": "Новое сообщение"
   },
   "error": {
     "Conflict": "Пользователь с таким именем уже зарегистрирован",

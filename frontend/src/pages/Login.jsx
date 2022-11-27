@@ -36,7 +36,7 @@ const Login = () => {
       username: '',
       password: '',
     },
-    validationSchema: loginSchema,
+    validationSchema: loginSchema(),
     validateOnBlur: true,
     onSubmit: handleLogin,
   });
