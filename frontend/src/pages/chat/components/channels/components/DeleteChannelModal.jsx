@@ -28,7 +28,7 @@ const DeleteChannelModal = ({ show, closeModal }) => {
         </Modal.Header>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>{t('cancel')}</Button>
-          <Button variant="primary" type="submit" autoFocus>{t('channels.removeChannel')}</Button>
+          <Button variant="danger" type="submit" autoFocus>{t('channels.removeChannel')}</Button>
         </Modal.Footer>
       </Form>
     </Modal>

@@ -65,10 +65,10 @@ const ChannelList = () => {
 
                       <Dropdown.Menu variant={variant}>
                         <Dropdown.Item onClick={() => showRenameChannelModal(id)} key="renameChannel">
-                          Rename channel
+                          {t('channels.renameChannel')}
                         </Dropdown.Item>
                         <Dropdown.Item onClick={() => showDeleteChannelModal(id)} key="removeChannel">
-                          Delete channel
+                          {t('channels.removeChannel')}
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </>
