@@ -60,8 +60,10 @@ const ChannelList = () => {
 
                   {isRemovable && (
                     <>
-                      <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" />
-                      <span className="visually-hidden">{t('channels.manageChannels')}</span>
+                      <Dropdown.Toggle split variant={variant} id="dropdown-split-basic">
+                        <span className="visually-hidden">{t('channels.manageChannels')}</span>
+                      </Dropdown.Toggle>
+
                       <Dropdown.Menu variant={variant}>
                         <Dropdown.Item onClick={() => showRenameChannelModal(id)} key="renameChannel">
                           {t('channels.renameChannel')}
