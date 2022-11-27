@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Button, ButtonGroup, Dropdown, Nav,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setActiveChannelId, setRenamedChannelId, setDeletedChannelId } from '../../../../../store/ui/ui.slice';
 import {
   activeChannelIdSelector,
@@ -13,6 +14,7 @@ import DeleteChannelModal from './DeleteChannelModal';
 const ChannelList = () => {
   const channels = useSelector((state) => state.channels);
   const activeChannelId = useSelector(activeChannelIdSelector);
+  const { t } = useTranslation();
 
   const getChannelName = (id) => `# ${channels.entities[id].name}`;
   const [isRenameChannelModalOpen, setIsRenameChannelModalOpen] = useState(false);
@@ -53,6 +55,7 @@ const ChannelList = () => {
                     className={`w-100 rounded-0 text-start btn ${isActive && 'text-white'}`}
                     onClick={() => setActive(id)}
                   >
+                    <span className="visually-hidden">{t('channels.manageChannels')}</span>
                     {getChannelName(id)}
                   </Button>
 

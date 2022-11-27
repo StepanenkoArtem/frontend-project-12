@@ -6,6 +6,7 @@
     "header": {
       "title": "Каналы"
     },
+    "manageChannels": "Управление каналами",
     "createNewChannel": "Создать новый канал",
     "removeChannel": "Удалить канал",
     "renameChannel": "Переименовать канал"
@@ -28,9 +29,9 @@
     "passwords_should_match": "Пароли должны совпадать"
   },
   "alerts": {
-    "channelWasRemoved": "Канал успешно удален",
-    "channelWasRenamed": "Канал успешно переименован",
-    "channelWasCreated": "Канал успешно создан"
+    "channelWasRemoved": "Канал удален",
+    "channelWasRenamed": "Канал переименован",
+    "channelWasCreated": "Канал создан"
   },
   "label": {
     "username": "Имя пользователя",
