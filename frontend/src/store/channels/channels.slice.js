@@ -57,32 +57,32 @@ const channelsSlice = createSlice({
       }));
 
     builder
-      .addCase(removeChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(removeChannel.rejected, (state, action) => {
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(removeChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(removeChannel.pending, () => ({
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(removeChannel.rejected, (state, action) => ({
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(removeChannel.fulfilled, () => ({
+        loadingStatus: 'success',
+        error: null,
+      }));
 
     builder
-      .addCase(renameChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(renameChannel.rejected, (state, action) => {
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(renameChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(renameChannel.pending, () => ({
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(renameChannel.rejected, (state, action) => ({
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(renameChannel.fulfilled, () => ({
+        loadingStatus: 'success',
+        error: null,
+      }));
   },
 });
 
