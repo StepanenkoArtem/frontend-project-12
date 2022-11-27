@@ -39,7 +39,7 @@ const NewMessage = () => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             disabled={isSending}
-            aria-label={t('New message')}
+            aria-label={t('conversation.New message')}
           />
           <Button type="submit" className="btn btn-group-vertical bg-white border-0" disabled={isSending}>
             <RightArrowIcon className="text-secondary" />
