@@ -3,7 +3,6 @@ import {
   Modal, Button, Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
@@ -13,6 +12,7 @@ import {
   renamedChannelIdSelector,
 } from '../../../../../store/ui/ui.selectors';
 import useProfanity from '../../../../../hooks/useProfanity';
+import channelSchema from '../../../../../validationSchemas/channel';
 
 const RenameChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
@@ -22,15 +22,11 @@ const RenameChannelModal = ({ show, closeModal }) => {
   const { t } = useTranslation();
   const profanity = useProfanity();
 
-  const channelSchema = Yup.object({
-    channelName: Yup.string().required().ensure().notOneOf(channelNames),
-  });
-
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    validationSchema: channelSchema,
+    validationSchema: channelSchema(channelNames),
     validateOnBlur: false,
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
@@ -47,6 +43,12 @@ const RenameChannelModal = ({ show, closeModal }) => {
           <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form.Label
+            className="visually-hidden"
+            htmlFor="channelName"
+          >
+            {t('placeholders.Channel name')}
+          </Form.Label>
           <Form.Control
             type="text"
             id="channelName"
@@ -54,7 +56,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.channelName}
-            placeholder="Channel Name"
+            placeholder={t('placeholders.Channel name')}
             required
             isInvalid={!formik.isValid}
             autoFocus={show}

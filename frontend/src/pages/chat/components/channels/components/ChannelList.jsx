@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Button, ButtonGroup, Dropdown, Nav,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setActiveChannelId, setRenamedChannelId, setDeletedChannelId } from '../../../../../store/ui/ui.slice';
 import {
   activeChannelIdSelector,
@@ -13,6 +14,7 @@ import DeleteChannelModal from './DeleteChannelModal';
 const ChannelList = () => {
   const channels = useSelector((state) => state.channels);
   const activeChannelId = useSelector(activeChannelIdSelector);
+  const { t } = useTranslation();
 
   const getChannelName = (id) => `# ${channels.entities[id].name}`;
   const [isRenameChannelModalOpen, setIsRenameChannelModalOpen] = useState(false);
@@ -58,14 +60,16 @@ const ChannelList = () => {
 
                   {isRemovable && (
                     <>
-                      <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" />
+                      <Dropdown.Toggle split variant={variant} id="dropdown-split-basic">
+                        <span className="visually-hidden">{t('channels.manageChannels')}</span>
+                      </Dropdown.Toggle>
 
                       <Dropdown.Menu variant={variant}>
                         <Dropdown.Item onClick={() => showRenameChannelModal(id)} key="renameChannel">
-                          Rename channel
+                          {t('channels.renameChannel')}
                         </Dropdown.Item>
                         <Dropdown.Item onClick={() => showDeleteChannelModal(id)} key="removeChannel">
-                          Delete channel
+                          {t('channels.removeChannel')}
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </>

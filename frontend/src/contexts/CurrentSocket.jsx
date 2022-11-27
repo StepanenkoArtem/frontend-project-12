@@ -1,7 +1,7 @@
 import React, {
   createContext, useContext, useEffect, useMemo,
 } from 'react';
-import { io } from 'socket.io-client';
+
 import { useDispatch } from 'react-redux';
 import { addMessage } from '../store/messages/messages.slice';
 import { addChannel, deleteChannel, updateChannel } from '../store/channels/channels.slice';
@@ -12,19 +12,8 @@ export const CurrentSocket = createContext({
   socket: {},
 });
 
-export const CurrentSocketProvider = ({ children }) => {
-  const token = window.localStorage.getItem('token');
+export const CurrentSocketProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
-
-  const socket = io(
-    'ws://localhost:5001',
-    {
-      transports: ['websocket', 'polling'],
-      path: '',
-      auth: { token },
-      timeout: 10000,
-    },
-  );
 
   useEffect(() => {
     socket.connect();

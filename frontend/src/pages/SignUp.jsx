@@ -1,23 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Button, Card, Col, Container, Form, Overlay, Row,
+  Button, Card, Col, Container, Form, Overlay, Row, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../contexts/CurrentUser';
 import Header from './Header';
-
-const signUpSchema = Yup.object({
-  username: Yup.string().required(),
-  password: Yup.string().required(),
-  passwordConfirmation: Yup.string()
-    .when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
-});
+import signUpSchema from '../validationSchemas/signup';
 
 const SignUp = () => {
-  const errorTipTarget = useRef(null);
+  const errorTarget = useRef(null);
   const navigate = useNavigate();
   const { signUp, currentUser } = useCurrentUser();
   const [error, setError] = useState('');
@@ -30,11 +23,6 @@ const SignUp = () => {
       setError(e.response.data.message);
     }
   };
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
-  }, [currentUser, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -44,9 +32,15 @@ const SignUp = () => {
     },
     validateOnMount: false,
     validateOnBlur: true,
-    validationSchema: signUpSchema,
+    validationSchema: signUpSchema(),
     onSubmit: handleSignUp,
   });
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -58,53 +52,85 @@ const SignUp = () => {
               <Card.Body className="row p-5">
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      id="username"
-                      name="username"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.username.trim()}
-                      placeholder={t('placeholders.username')}
-                      required
-                      isInvalid={!!error}
-                    />
-
+                    <FloatingLabel
+                      label={t('label.username')}
+                      className="mb-3 text-muted"
+                      htmlFor="username"
+                      controlId="username"
+                    >
+                      <Form.Control
+                        placeholder={t('placeholders.username')}
+                        name="username"
+                        autocomplete="username"
+                        required
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        isInvalid={!!formik.errors.username}
+                        value={formik.values.username.trim()}
+                      />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.username}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      id="password"
-                      name="password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder={t('placeholders.password')}
-                      value={formik.values.password.trim()}
-                      ref={errorTipTarget}
-                      required
-                      isInvalid={!!error}
-                    />
-
+                    <FloatingLabel
+                      label={t('placeholders.password')}
+                      className="mb-3 text-muted"
+                      controlId="password"
+                    >
+                      <Form.Control
+                        type="password"
+                        name="password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder={t('placeholders.password')}
+                        value={formik.values.password.trim()}
+                        required
+                        isInvalid={!!formik.errors.password}
+                      />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.password}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
                   </Form.Group>
-
                   <Form.Group className="mb-3">
-                    <Form.Control
-                      type="password"
-                      id="passwordConfirmation"
-                      name="passwordConfirmation"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder={t('placeholders.passwordConfirmation')}
-                      value={formik.values.passwordConfirmation.trim()}
-                      ref={errorTipTarget}
-                      required
-                      isInvalid={!!error}
-                    />
-
+                    <FloatingLabel
+                      label={t('placeholders.passwordConfirmation')}
+                      className="mb-3 text-muted"
+                      controlId="passwordConfirmation"
+                    >
+                      <Form.Control
+                        type="password"
+                        name="passwordConfirmation"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder={t('placeholders.passwordConfirmation')}
+                        value={formik.values.passwordConfirmation.trim()}
+                        ref={errorTarget}
+                        required
+                        isInvalid={!!formik.errors.passwordConfirmation}
+                      />
+                      <Form.Control.Feedback
+                        tooltip
+                        type="invalid"
+                      >
+                        {formik.errors.passwordConfirmation}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
                   </Form.Group>
-
                   {error && (
-                  <Overlay target={errorTipTarget.current} show={!!error} placement="bottom">
+                  <Overlay
+                    target={errorTarget.current}
+                    show={!!error}
+                    placement="bottom-start"
+                  >
                     <div
                       style={{
                         position: 'absolute',
@@ -118,7 +144,7 @@ const SignUp = () => {
                     </div>
                   </Overlay>
                   )}
-                  <Button variant="primary" type="submit" disabled={!formik.isValid}>
+                  <Button variant="primary" type="submit">
                     {t('registration')}
                   </Button>
                 </Form>

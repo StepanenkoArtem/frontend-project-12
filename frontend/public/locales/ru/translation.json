@@ -6,27 +6,42 @@
     "header": {
       "title": "Каналы"
     },
+    "manageChannels": "Управление каналом",
     "createNewChannel": "Создать новый канал",
-    "removeChannel": "Удалить канал",
-    "renameChannel": "Переименовать канал"
+    "removeChannel": "Удалить",
+    "renameChannel": "Переименовать"
   },
   "conversation": {
-    "addNewMessageBtn": "&#xF137"
+    "addNewMessageBtn": "&#xF137",
+    "New message": "Новое сообщение",
+    "MessagesWithCount_zero": "{{count}} сообщений",
+    "MessagesWithCount_one": "{{count}} сообщение",
+    "MessagesWithCount_few": "{{count}} сообщения",
+    "MessagesWithCount_many": "{{count}} сообщений"
   },
   "error": {
     "Conflict": "Пользователь с таким именем уже зарегистрирован",
-    "Unauthorized": "Неправильное имя пользователя или пароль",
-    "Network Error": "Ошибка соединения"
+    "Unauthorized": "Неверные имя пользователя или пароль",
+    "Network Error": "Ошибка соединения",
+    "required_field": "Обязательное поле",
+    "min_length": "Не менее {{min}} символов",
+    "length_range": "От {{min}} до {{max}} символов",
+    "passwords_should_match": "Пароли должны совпадать"
   },
   "alerts": {
-    "channelWasRemoved": "Канал успешно удален",
-    "channelWasRenamed": "Канал успешно переименован",
-    "channelWasCreated": "Канал успешно создан"
+    "channelWasRemoved": "Канал удалён",
+    "channelWasRenamed": "Канал переименован",
+    "channelWasCreated": "Канал создан"
+  },
+  "label": {
+    "username": "Имя пользователя",
+    "nickname": "Ваш ник"
   },
   "placeholders": {
-    "username": "Никнейм",
+    "username": "От 3 до 2 символов",
     "password": "Пароль",
-    "passwordConfirmation": "Подтверждение пароля"
+    "passwordConfirmation": "Подтвердите пароль",
+    "Channel name": "Имя канала"
   },
   "registration": "Регистрация",
   "signIn": "Вход",

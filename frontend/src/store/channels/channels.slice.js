@@ -30,7 +30,7 @@ export const renameChannel = createAsyncThunk(
   },
 );
 
-const channelsAdapter = createEntityAdapter();
+export const channelsAdapter = createEntityAdapter();
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -43,47 +43,55 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createNewChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(createNewChannel.rejected, (state, action) => {
-        console.log(action.error);
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(createNewChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(createNewChannel.pending, (state) => ({
+        ...state,
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(createNewChannel.rejected, (state, action) => ({
+        ...state,
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(createNewChannel.fulfilled, (state) => ({
+        ...state,
+        loadingStatus: 'success',
+        error: null,
+      }));
 
     builder
-      .addCase(removeChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(removeChannel.rejected, (state, action) => {
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(removeChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(removeChannel.pending, (state) => ({
+        ...state,
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(removeChannel.rejected, (state, action) => ({
+        ...state,
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(removeChannel.fulfilled, (state) => ({
+        ...state,
+        loadingStatus: 'success',
+        error: null,
+      }));
 
     builder
-      .addCase(renameChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(renameChannel.rejected, (state, action) => {
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(renameChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(renameChannel.pending, (state) => ({
+        ...state,
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(renameChannel.rejected, (state, action) => ({
+        ...state,
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(renameChannel.fulfilled, (state) => ({
+        ...state,
+        loadingStatus: 'success',
+        error: null,
+      }));
   },
 });
 

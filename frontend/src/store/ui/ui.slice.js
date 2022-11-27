@@ -16,46 +16,49 @@ const uiSlice = createSlice({
     },
   },
   reducers: {
-    setActiveChannelId: (state, action) => {
-      state.activeChannelId = action.payload;
-    },
-    setDeletedChannelId: (state, action) => {
-      state.deletedChannelId = action.payload;
-    },
-    setRenamedChannelId: (state, action) => {
-      state.renamedChannelId = action.payload;
-    },
-    setAlert: (state, action) => {
-      state.alert.message = action.payload.message;
-      state.alert.type = action.payload.type;
-    },
-    removeAlert: (state) => {
-      state.alert.message = null;
-      state.alert.type = null;
-    },
+    setActiveChannelId: (state, action) => ({
+      ...state,
+      activeChannelId: action.payload,
+    }),
+    setDeletedChannelId: (state, action) => ({
+      ...state,
+      deletedChannelId: action.payload,
+    }),
+    setRenamedChannelId: (state, action) => ({
+      ...state,
+      renamedChannelId: action.payload,
+    }),
+    setAlert: (state, action) => ({
+      ...state,
+      alert: { message: action.payload.message, type: action.payload.type },
+    }),
+    removeAlert: (state) => ({
+      ...state,
+      alert: { message: null, type: null },
+    }),
   },
   extraReducers: (builder) => {
     builder
-      .addCase(removeChannel.fulfilled, (state) => {
-        state.alert.type = ALERT_TYPES.SUCCESS;
-        state.alert.message = 'alerts.channelWasRemoved';
-      })
-      .addCase(removeChannel.rejected, (state, action) => {
-        state.alert.type = ALERT_TYPES.ERROR;
-        state.alert.message = action.payload.error.message;
-      })
-      .addCase(renameChannel.fulfilled, (state) => {
-        state.alert.type = ALERT_TYPES.SUCCESS;
-        state.alert.message = 'alerts.channelWasRenamed';
-      })
-      .addCase(createNewChannel.fulfilled, (state) => {
-        state.alert.type = ALERT_TYPES.SUCCESS;
-        state.alert.message = 'alerts.channelWasCreated';
-      })
-      .addCase(createNewChannel.rejected, (state, action) => {
-        state.alert.type = ALERT_TYPES.ERROR;
-        state.alert.message = action.payload;
-      });
+      .addCase(removeChannel.fulfilled, (state) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRemoved' },
+      }))
+      .addCase(removeChannel.rejected, (state, action) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.ERROR, message: action.payload.error.message },
+      }))
+      .addCase(renameChannel.fulfilled, (state) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRenamed' },
+      }))
+      .addCase(createNewChannel.fulfilled, (state) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
+      }))
+      .addCase(createNewChannel.rejected, (state, action) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.ERROR, message: action.payload },
+      }));
   },
 });
 
