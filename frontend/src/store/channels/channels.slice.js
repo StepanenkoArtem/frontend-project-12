@@ -43,19 +43,18 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createNewChannel.pending, (state) => {
-        state.loadingStatus = 'loading';
-        state.error = null;
-      })
-      .addCase(createNewChannel.rejected, (state, action) => {
-        console.log(action.error);
-        state.loadingStatus = 'failed';
-        state.error = action.error;
-      })
-      .addCase(createNewChannel.fulfilled, (state) => {
-        state.loadingStatus = 'success';
-        state.error = null;
-      });
+      .addCase(createNewChannel.pending, () => ({
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(createNewChannel.rejected, (state, action) => ({
+        loadingStatus: 'failed',
+        error: action.error,
+      }))
+      .addCase(createNewChannel.fulfilled, () => ({
+        loadingStatus: 'success',
+        error: null,
+      }));
 
     builder
       .addCase(removeChannel.pending, (state) => {
