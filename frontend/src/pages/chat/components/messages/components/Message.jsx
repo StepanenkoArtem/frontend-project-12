@@ -5,11 +5,11 @@ const Message = ({ message }) => {
 
   return (
     <div className="text-break">
-      <span className="px-2 fw-bold">
+      <b>
         {username}
-        :
-      </span>
-      <span>{body}</span>
+        :&nbsp;
+      </b>
+      {body}
     </div>
   );
 };
