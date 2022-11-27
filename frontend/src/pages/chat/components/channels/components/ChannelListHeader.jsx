@@ -15,14 +15,15 @@ const ChannelListHeader = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
-        <p>{t('channels.header.title')}</p>
+      <div className="d-flex justify-content-between align-items-baseline mb-2 ps-4 pe-2">
+        <p className="mt-2">{t('channels.header.title')}</p>
         <Button
           type="button"
-          className="btn btn-group-vertical bg-light border-0"
+          className="btn btn-group-vertical bg-light border-0 p-0"
           onClick={addNewChannel}
         >
           <PlusIcon className="text-primary" />
+          <span className="visually-hidden">+</span>
         </Button>
       </div>
       <AddNewChannelModal

@@ -35,7 +35,8 @@
   "placeholders": {
     "username": "От 3 до 2 символов",
     "password": "Пароль",
-    "passwordConfirmation": "Подтвердите пароль"
+    "passwordConfirmation": "Подтвердите пароль",
+    "Channel name": "Имя канала"
   },
   "registration": "Регистрация",
   "signIn": "Вход",

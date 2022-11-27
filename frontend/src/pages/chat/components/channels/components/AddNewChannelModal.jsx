@@ -3,13 +3,13 @@ import {
   Modal, Button, Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
 import { createNewChannel } from '../../../../../store/channels/channels.slice';
 import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
 import useProfanity from '../../../../../hooks/useProfanity';
+import channelSchema from '../../../../../validationSchemas/channel';
 
 const AddNewChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
@@ -18,15 +18,11 @@ const AddNewChannelModal = ({ show, closeModal }) => {
   const { t } = useTranslation();
   const profanity = useProfanity();
 
-  const channelSchema = Yup.object({
-    channelName: Yup.string().required().ensure().notOneOf(channelNames),
-  });
-
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    validationSchema: channelSchema,
+    validationSchema: channelSchema(channelNames),
     validateOnBlur: true,
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
@@ -50,7 +46,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.channelName}
-            placeholder="Channel Name"
+            placeholder={t('placeholders.Channel name')}
             required
             isInvalid={!formik.isValid}
             autoFocus={show}
