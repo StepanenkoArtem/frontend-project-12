@@ -52,7 +52,7 @@ const ChannelList = () => {
                 <Dropdown as={ButtonGroup} className="d-flex justify-content-between">
                   <Button
                     variant={variant}
-                    className={`w-100 rounded-0 text-start btn ${isActive && 'text-white'}`}
+                    className={`w-100 rounded-0 text-start btn text-truncate ${isActive && 'text-white'}`}
                     onClick={() => setActive(id)}
                   >
                     {getChannelName(id)}
