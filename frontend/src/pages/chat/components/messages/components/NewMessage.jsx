@@ -21,6 +21,9 @@ const NewMessage = () => {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    if (!newMessage) {
+      return;
+    }
     setIsSending(true);
     socket.emit('newMessage', { body: profanity.clean(newMessage), channelId: activeChannelId, username: currentUser?.username }, () => {
       setNewMessage('');
@@ -37,7 +40,7 @@ const NewMessage = () => {
             className="border-0 p-0 ps-2 form-control"
             autoFocus
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onChange={(e) => setNewMessage(e.target.value.trim())}
             disabled={isSending}
             aria-label={t('conversation.New message')}
           />
