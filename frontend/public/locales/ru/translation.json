@@ -48,5 +48,9 @@
   "registration": "Регистрация",
   "signIn": "Вход",
   "signOut": "Выйти",
-  "cancel": "Отмена"
+  "cancel": "Отмена",
+  "pageNotFound": {
+    "title": "Страница не найдена",
+    "text": "Перейти на"
+  }
 }
