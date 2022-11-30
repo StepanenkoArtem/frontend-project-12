@@ -57,6 +57,11 @@ const AddNewChannelModal = ({ show, closeModal }) => {
             isInvalid={!formik.isValid}
             autoFocus={show}
           />
+          <Form.Control.Feedback
+            type="invalid"
+          >
+            {formik.errors.channelName}
+          </Form.Control.Feedback>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>{t('cancel')}</Button>
