@@ -1,19 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../contexts/CurrentUser';
 
 const Header = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { currentUser, logOut } = useCurrentUser();
 
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
-  }, [currentUser, navigate]);
+  const { currentUser, logOut } = useCurrentUser();
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

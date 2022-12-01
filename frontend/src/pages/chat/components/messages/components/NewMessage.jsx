@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
-import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
+import { useChat } from '../../../../../contexts/Chat';
 import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 import useProfanity from '../../../../../hooks/useProfanity';
 
@@ -17,19 +17,18 @@ const NewMessage = () => {
   const profanity = useProfanity();
   const { t } = useTranslation();
   const newMessageInput = useRef(null);
+  const { sendNewMessage } = useChat();
 
-  const { socket } = useCurrentSocket();
-
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) {
       return;
     }
     setIsSending(true);
-    socket.emit('newMessage', { body: profanity.clean(newMessage), channelId: activeChannelId, username: currentUser?.username }, () => {
-      setNewMessage('');
-      setIsSending(false);
-    });
+    const message = profanity.clean(newMessage);
+    await sendNewMessage(message, activeChannelId, currentUser.username);
+    setNewMessage('');
+    setIsSending(false);
   };
 
   useEffect(() => {

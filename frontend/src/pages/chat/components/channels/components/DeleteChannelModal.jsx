@@ -2,22 +2,20 @@ import React from 'react';
 import {
   Modal, Button, Form,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
-import { removeChannel } from '../../../../../store/channels/channels.slice';
+import { useChat } from '../../../../../contexts/Chat';
 import { deletedChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 
 const DeleteChannelModal = ({ show, closeModal }) => {
   const deletedChannelId = useSelector(deletedChannelIdSelector);
-  const dispatch = useDispatch();
-  const { socket } = useCurrentSocket();
+  const { removeChannel } = useChat();
   const { t } = useTranslation();
 
   const onSubmit = (e) => {
     e.preventDefault();
     closeModal();
-    dispatch(removeChannel({ deletedChannelId, socket }));
+    removeChannel(deletedChannelId);
   };
 
   return (

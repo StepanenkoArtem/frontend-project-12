@@ -3,18 +3,16 @@ import {
   Modal, Button, Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
-import { createNewChannel } from '../../../../../store/channels/channels.slice';
-import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
+import { useChat } from '../../../../../contexts/Chat';
 import useProfanity from '../../../../../hooks/useProfanity';
 import channelSchema from '../../../../../validationSchemas/channel';
 
 const AddNewChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
-  const dispatch = useDispatch();
-  const { socket } = useCurrentSocket();
+  const { createNewChannel } = useChat();
   const { t } = useTranslation();
   const profanity = useProfanity();
 
@@ -25,9 +23,10 @@ const AddNewChannelModal = ({ show, closeModal }) => {
     validationSchema: channelSchema(channelNames),
     validateOnBlur: true,
     validateOnMount: false,
-    onSubmit: ({ channelName }) => {
+    onSubmit: async ({ channelName }) => {
       closeModal();
-      dispatch(createNewChannel({ channelName: profanity.clean(channelName), socket }));
+      const sanitizedName = profanity.clean(channelName);
+      await createNewChannel(sanitizedName);
       formik.resetForm();
     },
   });

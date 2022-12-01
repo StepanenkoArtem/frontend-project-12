@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  createNewChannel,
-  removeChannel,
-  renameChannel,
+  addChannel, deleteChannel, updateChannel,
 } from '../channels/channels.slice';
 import { ALERT_TYPES } from '../../config/constants';
 
@@ -39,25 +37,17 @@ const uiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(removeChannel.fulfilled, (state) => ({
+      .addCase(deleteChannel, (state) => ({
         ...state,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRemoved' },
       }))
-      .addCase(removeChannel.rejected, (state, action) => ({
-        ...state,
-        alert: { type: ALERT_TYPES.ERROR, message: action.payload.error.message },
-      }))
-      .addCase(renameChannel.fulfilled, (state) => ({
+      .addCase(updateChannel, (state) => ({
         ...state,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRenamed' },
       }))
-      .addCase(createNewChannel.fulfilled, (state) => ({
+      .addCase(addChannel, (state) => ({
         ...state,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
-      }))
-      .addCase(createNewChannel.rejected, (state, action) => ({
-        ...state,
-        alert: { type: ALERT_TYPES.ERROR, message: action.payload },
       }));
   },
 });

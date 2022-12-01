@@ -40,8 +40,8 @@ const ChannelList = () => {
   };
 
   return (
-    <>
-      <Nav className="flex-column" as="ul">
+    <div className="flex-grow-1">
+      <Nav className="flex-column overflow-visible" as="ul">
         { channels.ids.map(
           (id) => {
             const isActive = id === activeChannelId;
@@ -88,7 +88,7 @@ const ChannelList = () => {
         show={isDeleteChannelModalOpen}
         closeModal={closeDeleteChannelModal}
       />
-    </>
+    </div>
   );
 };
 

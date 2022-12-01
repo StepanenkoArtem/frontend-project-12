@@ -3,11 +3,10 @@ import {
   Modal, Button, Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import channelNamesSelector from '../../../../../store/channels/channels.selectors';
-import { useCurrentSocket } from '../../../../../contexts/CurrentSocket';
-import { renameChannel } from '../../../../../store/channels/channels.slice';
+import { useChat } from '../../../../../contexts/Chat';
 import {
   renamedChannelIdSelector,
 } from '../../../../../store/ui/ui.selectors';
@@ -17,8 +16,7 @@ import channelSchema from '../../../../../validationSchemas/channel';
 const RenameChannelModal = ({ show, closeModal }) => {
   const channelNames = useSelector(channelNamesSelector);
   const channelId = useSelector(renamedChannelIdSelector);
-  const dispatch = useDispatch();
-  const { socket } = useCurrentSocket();
+  const { renameChannel } = useChat();
   const { t } = useTranslation();
   const profanity = useProfanity();
 
@@ -31,7 +29,7 @@ const RenameChannelModal = ({ show, closeModal }) => {
     validateOnMount: false,
     onSubmit: ({ channelName }) => {
       closeModal();
-      dispatch(renameChannel({ channelName: profanity.clean(channelName), channelId, socket }));
+      renameChannel(profanity.clean(channelName), channelId);
       formik.resetForm();
     },
   });

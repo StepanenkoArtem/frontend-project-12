@@ -17,7 +17,6 @@ const messagesSlice = createSlice({
     addMessage: messagesAdapter.addOne,
     addMessages: messagesAdapter.addMany,
   },
-  extraReducers: () => {},
 });
 
 export const { addMessage, addMessages } = messagesSlice.actions;
