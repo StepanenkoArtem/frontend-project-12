@@ -10,7 +10,7 @@ const Chat = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loadInitialData = async () => {
+    const loadInitialData = () => {
       dispatch(initChat(client));
     };
     loadInitialData();

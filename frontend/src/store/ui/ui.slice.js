@@ -45,8 +45,9 @@ const uiSlice = createSlice({
         ...state,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRenamed' },
       }))
-      .addCase(addChannel, (state) => ({
+      .addCase(addChannel, (state, action) => ({
         ...state,
+        activeChannelId: action.payload.id,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
       }));
   },

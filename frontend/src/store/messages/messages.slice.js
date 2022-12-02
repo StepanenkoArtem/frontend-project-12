@@ -4,11 +4,11 @@ import { initChat } from '../channels/channels.slice';
 const messagesAdapter = createEntityAdapter();
 const selectors = messagesAdapter.getSelectors((state) => state.messages);
 
-const selectMessagesByChannelId = createSelector(
-  (state) => selectors.selectAll(state),
-  (_, channelId) => channelId,
-  (messages, channelId) => messages
-    .filter((message) => message.channelId === channelId),
+const selectActiveChannelMessages = createSelector(
+  (state) => state,
+  (state) => state.messages.ids
+    .map((id) => state.messages.entities[id])
+    .filter((message) => message.channelId === state.ui.activeChannelId),
 );
 
 /* eslint-disable no-param-reassign */
@@ -41,6 +41,6 @@ const messagesSlice = createSlice({
 /* eslint-enable no-param-reassign */
 export const { addMessage } = messagesSlice.actions;
 
-export { selectors, selectMessagesByChannelId };
+export { selectors, selectActiveChannelMessages };
 
 export default messagesSlice.reducer;
