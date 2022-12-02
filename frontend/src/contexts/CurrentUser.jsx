@@ -1,5 +1,5 @@
 import React, {
-  createContext, useMemo, useState, useContext, useEffect,
+  createContext, useMemo, useState, useContext,
 } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,9 @@ export const CurrentUserContext = createContext({
 });
 
 export const CurrentUserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const token = localStorage.getItem('token');
+
+  const [currentUser, setCurrentUser] = useState(token ? localStorage.getItem('username') : null);
   const dispatch = useDispatch();
 
   const setCurrentSession = (data) => {
@@ -29,14 +31,6 @@ export const CurrentUserProvider = ({ children }) => {
     localStorage.removeItem('username');
     setCurrentUser(null);
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
-    if (token && username) {
-      setCurrentUser({ username });
-    }
-  }, []);
 
   const memoizedUserContext = useMemo(
     () => {

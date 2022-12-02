@@ -1,5 +1,13 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import ApiPaths from '../../config/ApiPaths';
 
+export const initChat = createAsyncThunk(
+  'channels/fetchInitialData',
+  async (apiClient) => {
+    const { data } = await apiClient.get(ApiPaths.data);
+    return data;
+  },
+);
 export const channelsAdapter = createEntityAdapter();
 
 const channelsSlice = createSlice({
@@ -11,10 +19,28 @@ const channelsSlice = createSlice({
     deleteChannel: channelsAdapter.removeOne,
     updateChannel: channelsAdapter.upsertOne,
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(initChat.pending, (state) => ({
+        ...state,
+        loadingStatus: 'loading',
+        error: null,
+      }))
+      .addCase(initChat.rejected, (state, action) => ({
+        ...state,
+        loadingStatus: 'failed',
+        error: action.payload,
+      }))
+      .addCase(initChat.fulfilled, (state, action) => {
+        channelsAdapter.addMany(state, action.payload.channels);
+        state.loadingStatus = 'idle';
+        state.error = null;
+      });
+  },
 });
 
 export const {
-  addChannels, addChannel, updateChannel, deleteChannel,
+  addChannel, updateChannel, deleteChannel,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

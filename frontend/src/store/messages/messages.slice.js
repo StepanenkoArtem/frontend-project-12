@@ -1,4 +1,5 @@
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { initChat } from '../channels/channels.slice';
 
 const messagesAdapter = createEntityAdapter();
 const selectors = messagesAdapter.getSelectors((state) => state.messages);
@@ -16,6 +17,24 @@ const messagesSlice = createSlice({
   reducers: {
     addMessage: messagesAdapter.addOne,
     addMessages: messagesAdapter.addMany,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(initChat.pending, (state) => ({
+        ...state,
+        error: null,
+        loadingStatus: 'loading',
+      }))
+      .addCase(initChat.rejected, (state, action) => ({
+        ...state,
+        error: action.payload,
+        loadingStatus: 'failed',
+      }))
+      .addCase(initChat.fulfilled, (state, action) => {
+        messagesAdapter.addMany(state, action.payload.messages);
+        state.error = null;
+        state.loadingStatus = 'idle';
+      });
   },
 });
 

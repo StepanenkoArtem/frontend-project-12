@@ -3,9 +3,7 @@ import { useDispatch } from 'react-redux';
 import Messages from './components/messages/Messages';
 import Channels from './components/channels/Channels';
 import useClient from '../../hooks/useClient';
-import ApiPaths from '../../config/ApiPaths';
-import { addMessages } from '../../store/messages/messages.slice';
-import { addChannels } from '../../store/channels/channels.slice';
+import { initChat } from '../../store/channels/channels.slice';
 
 const Chat = () => {
   const client = useClient();
@@ -13,9 +11,7 @@ const Chat = () => {
 
   useEffect(() => {
     const loadInitialData = async () => {
-      const { data } = await client.get(ApiPaths.data);
-      dispatch(addMessages(data.messages));
-      dispatch(addChannels(data.channels));
+      dispatch(initChat(client));
     };
     loadInitialData();
   }, [client, dispatch]);
