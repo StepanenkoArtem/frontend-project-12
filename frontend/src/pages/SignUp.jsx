@@ -6,8 +6,8 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../contexts/CurrentUser';
-import Header from './Header';
 import signUpSchema from '../validationSchemas/signup';
+import Header from '../commonComponents/Header';
 
 const SignUp = () => {
   const errorTarget = useRef(null);
@@ -61,7 +61,7 @@ const SignUp = () => {
                       <Form.Control
                         placeholder={t('placeholders.username')}
                         name="username"
-                        autocomplete="username"
+                        autoComplete="username"
                         required
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}

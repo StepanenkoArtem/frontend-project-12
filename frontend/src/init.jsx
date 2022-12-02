@@ -9,10 +9,11 @@ import { CurrentUserProvider } from './contexts/CurrentUser';
 import i18n from './i18n';
 import store from './store/index';
 import rollbarConfig from './config/rollbar';
-import { CurrentSocketProvider } from './contexts/CurrentSocket';
+import { ChatProvider } from './contexts/Chat';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToasterProvider } from './contexts/Toaster';
 import { TOASTER_AUTO_CLOSE_TIME } from './config/constants';
+import InitSpinner from './commonComponents/InitSpinner';
 
 export default async (socketInstance) => {
   const russianDictionary = leoProfanity.getDictionary('ru');
@@ -22,19 +23,19 @@ export default async (socketInstance) => {
 
   return (
     <React.StrictMode>
-      <Suspense fallback="Is loading">
+      <Suspense fallback={<InitSpinner />}>
         <RollbarProvider config={rollbarConfig}>
           <ErrorBoundary>
             <Provider store={store}>
               <ToasterProvider>
                 <CurrentUserProvider>
-                  <CurrentSocketProvider socket={socketInstance}>
+                  <ChatProvider socket={socketInstance}>
                     <App />
                     <ToastContainer
                       pauseOnFocusLoss={false}
                       autoClose={TOASTER_AUTO_CLOSE_TIME}
                     />
-                  </CurrentSocketProvider>
+                  </ChatProvider>
                 </CurrentUserProvider>
               </ToasterProvider>
             </Provider>

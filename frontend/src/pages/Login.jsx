@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import loginSchema from '../validationSchemas/login';
 import { useCurrentUser } from '../contexts/CurrentUser';
-import Header from './Header';
+import Header from '../commonComponents/Header';
 
 const Login = () => {
   const errorTipTarget = useRef(null);

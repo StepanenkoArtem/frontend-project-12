@@ -40,8 +40,8 @@ const ChannelList = () => {
   };
 
   return (
-    <>
-      <Nav className="flex-column" as="ul">
+    <div className="flex-grow-1">
+      <Nav className="flex-column overflow-visible" as="ul">
         { channels.ids.map(
           (id) => {
             const isActive = id === activeChannelId;
@@ -52,7 +52,7 @@ const ChannelList = () => {
                 <Dropdown as={ButtonGroup} className="d-flex justify-content-between">
                   <Button
                     variant={variant}
-                    className={`w-100 rounded-0 text-start btn ${isActive && 'text-white'}`}
+                    className={`w-100 rounded-0 text-start btn text-truncate ${isActive && 'text-white'}`}
                     onClick={() => setActive(id)}
                   >
                     {getChannelName(id)}
@@ -88,7 +88,7 @@ const ChannelList = () => {
         show={isDeleteChannelModalOpen}
         closeModal={closeDeleteChannelModal}
       />
-    </>
+    </div>
   );
 };
 
