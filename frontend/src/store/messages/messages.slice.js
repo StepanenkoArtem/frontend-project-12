@@ -11,6 +11,7 @@ const selectMessagesByChannelId = createSelector(
     .filter((message) => message.channelId === channelId),
 );
 
+/* eslint-disable no-param-reassign */
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState({ loadingStatus: 'idle', error: null }),
@@ -32,13 +33,13 @@ const messagesSlice = createSlice({
       }))
       .addCase(initChat.fulfilled, (state, action) => {
         messagesAdapter.addMany(state, action.payload.messages);
-        state.error = null;
         state.loadingStatus = 'idle';
+        state.error = null;
       });
   },
 });
-
-export const { addMessage, addMessages } = messagesSlice.actions;
+/* eslint-enable no-param-reassign */
+export const { addMessage } = messagesSlice.actions;
 
 export { selectors, selectMessagesByChannelId };
 

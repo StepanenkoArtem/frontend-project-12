@@ -8,8 +8,10 @@ export const initChat = createAsyncThunk(
     return data;
   },
 );
+
 export const channelsAdapter = createEntityAdapter();
 
+/* eslint-disable no-param-reassign */
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }),
@@ -38,6 +40,7 @@ const channelsSlice = createSlice({
       });
   },
 });
+/* eslint-enable no-param-reassign */
 
 export const {
   addChannel, updateChannel, deleteChannel,
