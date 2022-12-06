@@ -5,9 +5,9 @@ import {
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import loginSchema from '../validationSchemas/login';
-import { useCurrentUser } from '../contexts/CurrentUser';
-import Header from '../commonComponents/Header';
+import loginSchema from '../../validationSchemas/login';
+import { useCurrentUser } from '../../contexts/CurrentUser';
+import Header from '../../commonComponents/Header';
 
 const Login = () => {
   const errorTipTarget = useRef(null);

@@ -5,9 +5,9 @@ import {
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCurrentUser } from '../contexts/CurrentUser';
-import signUpSchema from '../validationSchemas/signup';
-import Header from '../commonComponents/Header';
+import { useCurrentUser } from '../../contexts/CurrentUser';
+import signUpSchema from '../../validationSchemas/signup';
+import Header from '../../commonComponents/Header';
 
 const SignUp = () => {
   const errorTarget = useRef(null);
