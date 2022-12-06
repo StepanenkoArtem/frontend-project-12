@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 const run = () => {
   const socketInstance = io();
 
-  const root = ReactDOM.createRoot(document.getElementById('Chat'));
+  const root = ReactDOM.createRoot(document.getElementById('chat'));
 
   init(socketInstance)
     .then((vdom) => {

@@ -15,14 +15,11 @@ export const CurrentUserContext = createContext({
 });
 
 export const CurrentUserProvider = ({ children }) => {
-  const token = localStorage.getItem('token');
-
-  const [currentUser, setCurrentUser] = useState(token ? localStorage.getItem('username') : null);
+  const [currentUser, setCurrentUser] = useState();
   const dispatch = useDispatch();
 
   const setCurrentSession = (data) => {
     localStorage.setItem('token', data.token);
-    localStorage.setItem('username', data.username);
     setCurrentUser({ username: data.username });
   };
 
