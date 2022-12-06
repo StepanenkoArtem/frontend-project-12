@@ -1,11 +1,9 @@
 import ReactDOM from 'react-dom/client';
-import { io } from 'socket.io-client';
 import init from './init';
 import reportWebVitals from './reportWebVitals';
+import socketInstance from './socket';
 
 const run = () => {
-  const socketInstance = io();
-
   const root = ReactDOM.createRoot(document.getElementById('chat'));
 
   init(socketInstance)
