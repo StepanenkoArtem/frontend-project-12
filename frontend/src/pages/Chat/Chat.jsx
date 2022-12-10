@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Messages from './components/messages/Messages';
 import Channels from './components/channels/Channels';
-import useClient from '../../hooks/useClient';
 import { initChat } from '../../store/channels/channels.slice';
+import { useCurrentUser } from '../../contexts/CurrentUser';
 
 const Chat = () => {
-  const client = useClient();
+  const { client } = useCurrentUser();
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import {
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import channelNamesSelector from '../../../../../store/channels/channels.selectors';
+import { channelNamesSelector } from '../../../../../store/channels/channels.selectors';
 import { useChat } from '../../../../../contexts/Chat';
 import useProfanity from '../../../../../hooks/useProfanity';
 import channelSchema from '../../../../../validationSchemas/channel';

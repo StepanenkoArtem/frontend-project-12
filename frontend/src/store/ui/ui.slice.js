@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  addChannel, deleteChannel, updateChannel,
+  addChannel, deleteChannel, initChat, updateChannel,
 } from '../channels/channels.slice';
 import { ALERT_TYPES } from '../../config/constants';
 
@@ -50,6 +50,11 @@ const uiSlice = createSlice({
         activeChannelId: action.payload.id,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
       }));
+
+    builder.addCase(initChat.rejected, (state, action) => ({
+      ...state,
+      alert: { type: ALERT_TYPES.ERROR, message: action.error.message },
+    }));
   },
 });
 

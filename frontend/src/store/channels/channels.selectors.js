@@ -6,5 +6,10 @@ const channelNamesSelector = createSelector(
   (channels) => channels.ids.map((id) => channels.entities[id].name),
 );
 
-export default channelNamesSelector;
+const channelErrorSelector = createSelector(
+  (state) => state.channels,
+  (channels) => channels.error,
+);
+
+export { channelNamesSelector, channelErrorSelector };
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
