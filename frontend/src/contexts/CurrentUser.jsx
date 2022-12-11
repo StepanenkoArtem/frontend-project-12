@@ -1,5 +1,5 @@
 import React, {
-  createContext, useMemo, useState, useContext,
+  createContext, useState, useContext, useMemo,
 } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -9,69 +9,71 @@ import { ALERT_TYPES } from '../config/constants';
 
 export const CurrentUserContext = createContext({
   currentUser: null,
+  client: {},
   logIn: () => {},
   logOut: () => {},
   signUp: () => {},
 });
 
 export const CurrentUserProvider = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.token && localStorage.username
+      ? { username: localStorage.username, token: localStorage.token }
+      : null,
+  );
 
-  const [currentUser, setCurrentUser] = useState(token ? localStorage.getItem('username') : null);
+  const client = axios.create();
+  client.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`;
+
   const dispatch = useDispatch();
 
   const setCurrentSession = (data) => {
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('username', data.username);
-    setCurrentUser({ username: data.username });
+    const { token, username } = data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
+    setCurrentUser({ username, token });
   };
 
   const logOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+
     setCurrentUser(null);
   };
 
-  const memoizedUserContext = useMemo(
-    () => {
-      const logIn = async ({ password, username }) => {
-        const body = { password, username };
-        const config = { responseType: 'json' };
+  const logIn = async ({ password, username }) => {
+    const body = { password, username };
 
-        try {
-          const { data } = await axios.post(ApiPaths.login, body, config);
-          setCurrentSession(data);
-        } catch (e) {
-          if (e.response.status === 401) {
-            throw e;
-          }
-          dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
-        }
-      };
+    try {
+      const { data } = await axios.post(ApiPaths.login, body);
+      setCurrentSession(data);
+    } catch (e) {
+      if (e.response.status === 401) {
+        throw e;
+      }
+      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+    }
+  };
 
-      const signUp = async ({ password, username }) => {
-        const body = { password, username };
-        const config = { responseType: 'json' };
-        try {
-          const { data } = await axios.post(ApiPaths.signUp, body, config);
-          setCurrentSession(data);
-        } catch (e) {
-          if (e.response.status === 409) {
-            throw e;
-          }
-          dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
-        }
-      };
+  const signUp = async ({ password, username }) => {
+    const body = { password, username };
+    try {
+      const { data } = await axios.post(ApiPaths.signUp, body);
+      setCurrentSession(data);
+    } catch (e) {
+      if (e.response.status === 409) {
+        throw e;
+      }
+      dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
+    }
+  };
 
-      return {
-        currentUser, logIn, logOut, signUp,
-      };
-    },
-    [currentUser, dispatch],
-  );
+  const context = useMemo(() => ({
+    currentUser, client, logIn, logOut, signUp,
+  }), [currentUser]);
 
   return (
-    <CurrentUserContext.Provider value={memoizedUserContext}>
+    <CurrentUserContext.Provider value={context}>
       {children}
     </CurrentUserContext.Provider>
   );

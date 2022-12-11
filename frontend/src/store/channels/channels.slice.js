@@ -31,7 +31,7 @@ const channelsSlice = createSlice({
       .addCase(initChat.rejected, (state, action) => ({
         ...state,
         loadingStatus: 'failed',
-        error: action.payload,
+        error: action.error,
       }))
       .addCase(initChat.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);

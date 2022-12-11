@@ -1,18 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Button, Card, Col, Container, Form, Overlay, Row, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCurrentUser } from '../contexts/CurrentUser';
-import signUpSchema from '../validationSchemas/signup';
-import Header from '../commonComponents/Header';
+import { useCurrentUser } from '../../contexts/CurrentUser';
+import signUpSchema from '../../validationSchemas/signup';
+import Header from '../../commonComponents/Header';
 
 const SignUp = () => {
   const errorTarget = useRef(null);
-  const navigate = useNavigate();
-  const { signUp, currentUser } = useCurrentUser();
+  const { signUp } = useCurrentUser();
   const [error, setError] = useState('');
   const { t } = useTranslation();
 
@@ -35,12 +34,6 @@ const SignUp = () => {
     validationSchema: signUpSchema(),
     onSubmit: handleSignUp,
   });
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
-  }, [currentUser, navigate]);
 
   return (
     <div className="d-flex flex-column h-100">
