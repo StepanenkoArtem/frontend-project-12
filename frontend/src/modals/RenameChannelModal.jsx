@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Modal, Button, Form,
 } from 'react-bootstrap';
@@ -21,10 +21,15 @@ const RenameChannelModal = () => {
   const { t } = useTranslation();
   const profanity = useProfanity();
   const dispatch = useDispatch();
+  const input = useRef(null);
 
   const close = () => {
     dispatch(closeModal());
   };
+
+  useEffect(() => {
+    input.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +59,7 @@ const RenameChannelModal = () => {
             {t('placeholders.Channel name')}
           </Form.Label>
           <Form.Control
+            ref={input}
             type="text"
             id="channelName"
             name="channelName"
@@ -63,7 +69,6 @@ const RenameChannelModal = () => {
             placeholder={t('placeholders.Channel name')}
             required
             isInvalid={!formik.isValid}
-            autoFocus
           />
           <Form.Control.Feedback
             type="invalid"
@@ -72,7 +77,7 @@ const RenameChannelModal = () => {
           </Form.Control.Feedback>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>{t('cancel')}</Button>
+          <Button variant="secondary" onClick={close}>{t('cancel')}</Button>
           <Button
             variant="primary"
             type="submit"
