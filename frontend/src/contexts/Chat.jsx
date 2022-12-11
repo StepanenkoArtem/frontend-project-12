@@ -14,12 +14,7 @@ export const ChatProvider = ({ children }) => {
       removeChannel,
       renameChannel,
     }
-  ), [
-    sendNewMessage,
-    createNewChannel,
-    removeChannel,
-    renameChannel,
-  ]);
+  ), []);
 
   return (
     <Chat.Provider value={memoizedSocket}>

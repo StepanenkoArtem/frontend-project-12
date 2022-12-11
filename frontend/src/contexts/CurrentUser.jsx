@@ -1,5 +1,5 @@
 import React, {
-  createContext, useState, useContext, useMemo,
+  createContext, useState, useContext, useMemo, useCallback,
 } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -41,7 +41,7 @@ export const CurrentUserProvider = ({ children }) => {
     setCurrentUser(null);
   };
 
-  const logIn = async ({ password, username }) => {
+  const logIn = useCallback(async ({ password, username }) => {
     const body = { password, username };
 
     try {
@@ -53,9 +53,9 @@ export const CurrentUserProvider = ({ children }) => {
       }
       dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
     }
-  };
+  }, [dispatch]);
 
-  const signUp = async ({ password, username }) => {
+  const signUp = useCallback(async ({ password, username }) => {
     const body = { password, username };
     try {
       const { data } = await axios.post(ApiPaths.signUp, body);
@@ -66,7 +66,7 @@ export const CurrentUserProvider = ({ children }) => {
       }
       dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
     }
-  };
+  }, [dispatch]);
 
   const context = useMemo(() => ({
     currentUser, client, logIn, logOut, signUp,
