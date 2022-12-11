@@ -70,7 +70,7 @@ export const CurrentUserProvider = ({ children }) => {
 
   const context = useMemo(() => ({
     currentUser, client, logIn, logOut, signUp,
-  }), [currentUser]);
+  }), [currentUser, client, logIn, signUp]);
 
   return (
     <CurrentUserContext.Provider value={context}>
