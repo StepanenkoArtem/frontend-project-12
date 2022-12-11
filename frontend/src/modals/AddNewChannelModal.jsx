@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Modal, Button, Form,
 } from 'react-bootstrap';
@@ -17,11 +17,15 @@ const AddNewChannelModal = () => {
   const { t } = useTranslation();
   const profanity = useProfanity();
   const dispatch = useDispatch();
-  console.log('render add new modal');
+  const input = useRef(null);
 
   const close = () => {
     dispatch(closeModal());
   };
+
+  useEffect(() => {
+    input.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -52,6 +56,7 @@ const AddNewChannelModal = () => {
             {t('placeholders.Channel name')}
           </Form.Label>
           <Form.Control
+            ref={input}
             type="text"
             id="channelName"
             name="channelName"
