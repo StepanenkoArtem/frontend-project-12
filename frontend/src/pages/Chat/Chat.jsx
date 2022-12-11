@@ -1,29 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import Messages from './components/messages/Messages';
 import Channels from './components/channels/Channels';
-import { initChat } from '../../store/channels/channels.slice';
-import { useCurrentUser } from '../../contexts/CurrentUser';
+import ModalWindow from '../../commonComponents/ModalWindow';
 
-const Chat = () => {
-  const { client } = useCurrentUser();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const loadInitialData = () => {
-      dispatch(initChat(client));
-    };
-    loadInitialData();
-  }, [client, dispatch]);
-
-  return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 bg-white flex-row">
-        <Channels />
-        <Messages />
-      </div>
+const Chat = () => (
+  <div className="container h-100 my-4 overflow-hidden rounded shadow">
+    <div className="row h-100 bg-white flex-row">
+      <Channels />
+      <Messages />
+      <ModalWindow />
     </div>
-  );
-};
+  </div>
+);
 
 export default Chat;

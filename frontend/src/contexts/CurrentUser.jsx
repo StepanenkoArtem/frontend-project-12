@@ -17,7 +17,9 @@ export const CurrentUserContext = createContext({
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
-    localStorage.token && localStorage.username ? localStorage.username : null,
+    localStorage.token && localStorage.username
+      ? { username: localStorage.username, token: localStorage.token }
+      : null,
   );
 
   const client = axios.create();

@@ -49,6 +49,7 @@ const NewMessage = () => {
             onChange={(e) => setNewMessage(e.target.value)}
             disabled={isSending}
             aria-label={t('conversation.New message')}
+            autoFocus
           />
           <Button type="submit" className="btn btn-group-vertical bg-white border-0" disabled={isSending}>
             <RightArrowIcon className="text-secondary" />

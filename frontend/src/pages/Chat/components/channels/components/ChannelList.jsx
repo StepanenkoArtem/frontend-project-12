@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Button, ButtonGroup, Dropdown, Nav,
@@ -8,8 +8,6 @@ import { setActiveChannelId, setRenamedChannelId, setDeletedChannelId } from '..
 import {
   activeChannelIdSelector,
 } from '../../../../../store/ui/ui.selectors';
-import RenameChannelModal from './RenameChannelModal';
-import DeleteChannelModal from './DeleteChannelModal';
 
 const ChannelList = () => {
   const channels = useSelector((state) => state.channels);
@@ -17,25 +15,17 @@ const ChannelList = () => {
   const { t } = useTranslation();
 
   const getChannelName = (id) => `# ${channels.entities[id].name}`;
-  const [isRenameChannelModalOpen, setIsRenameChannelModalOpen] = useState(false);
-  const [isDeleteChannelModalOpen, setIsDeleteChannelModalOpen] = useState(false);
-
   const dispatch = useDispatch();
-
-  const closeRenameChannelModal = () => setIsRenameChannelModalOpen(false);
-  const closeDeleteChannelModal = () => setIsDeleteChannelModalOpen(false);
 
   const setActive = (id) => {
     dispatch(setActiveChannelId(id));
   };
 
   const showRenameChannelModal = (id) => {
-    setIsRenameChannelModalOpen(true);
     dispatch(setRenamedChannelId(id));
   };
 
   const showDeleteChannelModal = (id) => {
-    setIsDeleteChannelModalOpen(true);
     dispatch(setDeletedChannelId(id));
   };
 
@@ -80,14 +70,6 @@ const ChannelList = () => {
           },
         )}
       </Nav>
-      <RenameChannelModal
-        show={isRenameChannelModalOpen}
-        closeModal={closeRenameChannelModal}
-      />
-      <DeleteChannelModal
-        show={isDeleteChannelModalOpen}
-        closeModal={closeDeleteChannelModal}
-      />
     </div>
   );
 };

@@ -3,39 +3,48 @@ import {
   Modal, Button, Form,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { channelNamesSelector } from '../../../../../store/channels/channels.selectors';
-import { useChat } from '../../../../../contexts/Chat';
-import useProfanity from '../../../../../hooks/useProfanity';
-import channelSchema from '../../../../../validationSchemas/channel';
+import { channelNamesSelector } from '../store/channels/channels.selectors';
+import { useChat } from '../contexts/Chat';
+import {
+  renamedChannelIdSelector,
+} from '../store/ui/ui.selectors';
+import useProfanity from '../hooks/useProfanity';
+import channelSchema from '../validationSchemas/channel';
+import { closeModal } from '../store/modal/modal.slice';
 
-const AddNewChannelModal = ({ show, closeModal }) => {
+const RenameChannelModal = () => {
   const channelNames = useSelector(channelNamesSelector);
-  const { createNewChannel } = useChat();
+  const channelId = useSelector(renamedChannelIdSelector);
+  const { renameChannel } = useChat();
   const { t } = useTranslation();
   const profanity = useProfanity();
+  const dispatch = useDispatch();
+
+  const close = () => {
+    dispatch(closeModal());
+  };
 
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
     validationSchema: channelSchema(channelNames),
-    validateOnBlur: true,
+    validateOnBlur: false,
     validateOnMount: false,
-    onSubmit: async ({ channelName }) => {
-      closeModal();
-      const sanitizedName = profanity.clean(channelName);
-      await createNewChannel(sanitizedName);
+    onSubmit: ({ channelName }) => {
+      close();
+      renameChannel(profanity.clean(channelName), channelId);
       formik.resetForm();
     },
   });
 
   return (
-    <Modal show={show}>
+    <Modal show>
       <Form onSubmit={formik.handleSubmit}>
-        <Modal.Header closeButton onClick={closeModal}>
-          <Modal.Title>{t('channels.createNewChannel')}</Modal.Title>
+        <Modal.Header closeButton onClick={close}>
+          <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Label
@@ -54,7 +63,7 @@ const AddNewChannelModal = ({ show, closeModal }) => {
             placeholder={t('placeholders.Channel name')}
             required
             isInvalid={!formik.isValid}
-            autoFocus={show}
+            autoFocus
           />
           <Form.Control.Feedback
             type="invalid"
@@ -70,11 +79,11 @@ const AddNewChannelModal = ({ show, closeModal }) => {
             disabled={!formik.isValid}
             active={formik.isValid}
           >
-            {t('channels.createNewChannel')}
+            {t('channels.renameChannel')}
           </Button>
         </Modal.Footer>
       </Form>
     </Modal>
   );
 };
-export default AddNewChannelModal;
+export default RenameChannelModal;

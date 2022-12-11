@@ -39,6 +39,7 @@ const uiSlice = createSlice({
     builder
       .addCase(deleteChannel, (state) => ({
         ...state,
+        activeChannelId: 1,
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRemoved' },
       }))
       .addCase(updateChannel, (state) => ({
@@ -51,10 +52,11 @@ const uiSlice = createSlice({
         alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
       }));
 
-    builder.addCase(initChat.rejected, (state, action) => ({
-      ...state,
-      alert: { type: ALERT_TYPES.ERROR, message: action.error.message },
-    }));
+    builder
+      .addCase(initChat.rejected, (state, action) => ({
+        ...state,
+        alert: { type: ALERT_TYPES.ERROR, message: action.error.code },
+      }));
   },
 });
 
