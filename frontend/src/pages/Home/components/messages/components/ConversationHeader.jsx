@@ -10,6 +10,7 @@ const ConversationHeader = () => {
   const activeChannel = useSelector(activeChannelSelector);
   const messages = useSelector(selectActiveChannelMessages);
   const { t } = useTranslation();
+
   return (
     <div className="bg-light mb-4 p-3 shadow-sm small">
       <h6 className="font-weight-bolder">{`# ${activeChannel?.name}`}</h6>
