@@ -13,7 +13,7 @@ const ConversationHeader = () => {
 
   return (
     <div className="bg-light mb-4 p-3 shadow-sm small">
-      <h6 className="font-weight-bolder">{`# *${activeChannel?.name}`}</h6>
+      <h6 className="font-weight-bolder">{`# ${activeChannel?.name}`}</h6>
       {t('conversation.MessagesWithCount', { count: messages.length })}
     </div>
   );
