@@ -1,15 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 import {
   selectActiveChannelMessages,
 } from '../../../../../store/messages/messages.slice';
-import { selectors } from '../../../../../store/channels/channels.selectors';
+import { activeChannelSelector } from '../../../../../store/channels/channels.selectors';
 
 const ConversationHeader = () => {
-  const activeChannelId = useSelector(activeChannelIdSelector);
-  const activeChannel = useSelector((state) => selectors.selectById(state, activeChannelId));
+  const activeChannel = useSelector(activeChannelSelector);
   const messages = useSelector(selectActiveChannelMessages);
   const { t } = useTranslation();
   return (

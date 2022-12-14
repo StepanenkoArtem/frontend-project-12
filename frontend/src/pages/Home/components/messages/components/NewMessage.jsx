@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next';
 import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
 import { useChat } from '../../../../../contexts/Chat';
-import { activeChannelIdSelector } from '../../../../../store/ui/ui.selectors';
 import useProfanity from '../../../../../hooks/useProfanity';
+import { activeChannelSelector } from '../../../../../store/channels/channels.selectors';
 
 const NewMessage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const { currentUser } = useCurrentUser();
-  const activeChannelId = useSelector(activeChannelIdSelector);
+  const activeChannel = useSelector(activeChannelSelector);
   const profanity = useProfanity();
   const { t } = useTranslation();
   const newMessageInput = useRef(null);
@@ -26,7 +26,7 @@ const NewMessage = () => {
     }
     setIsSending(true);
     const message = profanity.clean(newMessage);
-    await sendNewMessage(message, activeChannelId, currentUser.username);
+    await sendNewMessage(message, activeChannel.id, currentUser.username);
     setNewMessage('');
     setIsSending(false);
   };
@@ -35,7 +35,7 @@ const NewMessage = () => {
     if (newMessageInput) {
       newMessageInput.current.focus();
     }
-  }, [activeChannelId, isSending]);
+  }, [activeChannel, isSending]);
 
   return (
     <div className="mt-auto px-5 py-3">

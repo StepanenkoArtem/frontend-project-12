@@ -6,10 +6,23 @@ const channelNamesSelector = createSelector(
   (channels) => channels.ids.map((id) => channels.entities[id].name),
 );
 
+const selectors = channelsAdapter.getSelectors((state) => state.channels);
+
+const channelsSelector = createSelector(
+  (state) => state.channels,
+  (channels) => channels,
+);
+
 const channelErrorSelector = createSelector(
   (state) => state.channels,
   (channels) => channels.error,
 );
 
-export { channelNamesSelector, channelErrorSelector };
-export const selectors = channelsAdapter.getSelectors((state) => state.channels);
+const activeChannelSelector = createSelector(
+  (state) => state,
+  (state) => state.channels.entities.find((channel) => channel.id === state.ui.activeChannelId),
+);
+
+export {
+  channelNamesSelector, channelErrorSelector, channelsSelector, activeChannelSelector, selectors,
+};
