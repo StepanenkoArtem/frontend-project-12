@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom/client';
+import { io } from 'socket.io-client';
 import init from './init';
 import reportWebVitals from './reportWebVitals';
-import socketInstance from './socket';
+import subscribe from './socket';
 
 const run = () => {
   const root = ReactDOM.createRoot(document.getElementById('chat'));
+  const socketInstance = io();
+  const socket = subscribe(socketInstance);
 
-  init(socketInstance)
+  init(socket)
     .then((vdom) => {
       root.render(vdom);
     });

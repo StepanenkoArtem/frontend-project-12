@@ -1,30 +1,33 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Chat from '../Chat/Chat';
+import { useSelector } from 'react-redux';
 import Header from '../../commonComponents/Header';
 import { channelErrorSelector } from '../../store/channels/channels.selectors';
-import InitSpinner from '../../commonComponents/InitSpinner';
-import { initChat } from '../../store/channels/channels.slice';
 import { useCurrentUser } from '../../contexts/CurrentUser';
+import Channels from './components/channels/Channels';
+import Messages from './components/messages/Messages';
+import ModalWindow from '../../commonComponents/ModalWindow';
 
 const Home = () => {
   const error = useSelector(channelErrorSelector);
-  const { client } = useCurrentUser();
-  const dispatch = useDispatch();
+  const { logOut } = useCurrentUser();
 
   useEffect(() => {
-    const loadInitialData = () => {
-      dispatch(initChat(client));
-    };
-    loadInitialData();
-  }, [client, dispatch]);
+    if (error) {
+      logOut();
+    }
+  }, [error, logOut]);
 
   return (
     <div className="d-flex flex-column h-100">
       <Header />
-      {error ? <InitSpinner /> : <Chat />}
+      <div className="container h-100 my-4 overflow-hidden rounded shadow">
+        <div className="row h-100 bg-white flex-row">
+          <Channels />
+          <Messages />
+        </div>
+      </div>
+      <ModalWindow />
     </div>
   );
 };
-
 export default Home;

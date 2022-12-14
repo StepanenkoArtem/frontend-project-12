@@ -1,20 +1,11 @@
 import React, { createContext, useContext, useMemo } from 'react';
 
-import {
-  sendNewMessage, createNewChannel, removeChannel, renameChannel,
-} from '../socket';
-
 export const Chat = createContext({});
 
-export const ChatProvider = ({ children }) => {
+export const ChatProvider = ({ children, socket }) => {
   const memoizedSocket = useMemo(() => (
-    {
-      sendNewMessage,
-      createNewChannel,
-      removeChannel,
-      renameChannel,
-    }
-  ), []);
+    { ...socket }
+  ), [socket]);
 
   return (
     <Chat.Provider value={memoizedSocket}>

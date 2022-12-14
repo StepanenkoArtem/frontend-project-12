@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, Overlay, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import loginSchema from '../../validationSchemas/login';
 import { useCurrentUser } from '../../contexts/CurrentUser';
@@ -12,10 +12,8 @@ import Header from '../../commonComponents/Header';
 const Login = () => {
   const errorTipTarget = useRef(null);
   const [error, setError] = useState();
-  const { logIn, currentUser } = useCurrentUser();
+  const { logIn } = useCurrentUser();
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const handleLogin = async ({ password, username }) => {
     try {
@@ -24,12 +22,6 @@ const Login = () => {
       setError(e.response.data.message);
     }
   };
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
-  }, [currentUser, navigate]);
 
   const formik = useFormik({
     initialValues: {

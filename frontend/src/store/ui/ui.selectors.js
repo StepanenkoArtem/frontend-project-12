@@ -1,10 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-const activeChannelIdSelector = createSelector(
-  (state) => state.ui,
-  (ui) => ui.activeChannelId,
-);
-
 const deletedChannelIdSelector = createSelector(
   (state) => state.ui,
   (ui) => ui.deletedChannelId,
@@ -21,7 +16,6 @@ const alertSelector = createSelector(
 );
 
 export {
-  activeChannelIdSelector,
   deletedChannelIdSelector,
   renamedChannelIdSelector,
   alertSelector,

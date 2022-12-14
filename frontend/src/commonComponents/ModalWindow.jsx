@@ -11,8 +11,8 @@ const ModalWindow = () => {
   const currentModal = useSelector(currentModalSelector);
 
   const modalType = {
-    addNewChannel: <AddNewChannelModal show />,
-    renameChannel: <RenameChannelModal show />,
+    addNewChannel: <AddNewChannelModal />,
+    renameChannel: <RenameChannelModal />,
     deleteChannel: <DeleteChannelModal />,
   };
 

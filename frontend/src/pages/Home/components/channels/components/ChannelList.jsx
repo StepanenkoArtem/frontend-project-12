@@ -6,12 +6,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { setActiveChannelId, setRenamedChannelId, setDeletedChannelId } from '../../../../../store/ui/ui.slice';
 import {
-  activeChannelIdSelector,
-} from '../../../../../store/ui/ui.selectors';
+  activeChannelSelector,
+  channelsSelector,
+} from '../../../../../store/channels/channels.selectors';
 
 const ChannelList = () => {
-  const channels = useSelector((state) => state.channels);
-  const activeChannelId = useSelector(activeChannelIdSelector);
+  const channels = useSelector(channelsSelector);
+  const activeChannel = useSelector(activeChannelSelector);
   const { t } = useTranslation();
 
   const getChannelName = (id) => `# ${channels.entities[id].name}`;
@@ -34,7 +35,7 @@ const ChannelList = () => {
       <Nav className="flex-column overflow-visible" as="ul">
         { channels.ids.map(
           (id) => {
-            const isActive = id === activeChannelId;
+            const isActive = id === activeChannel.id;
             const variant = isActive ? 'secondary' : '';
             const isRemovable = channels.entities[id].removable;
             return (
