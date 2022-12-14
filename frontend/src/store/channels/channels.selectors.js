@@ -20,7 +20,7 @@ const channelErrorSelector = createSelector(
 
 const activeChannelSelector = createSelector(
   (state) => state,
-  (state) => state.channels.entities.find((channel) => channel.id === state.ui.activeChannelId),
+  ({ channels, ui }) => channels.entities[ui.activeChannelId],
 );
 
 export {
