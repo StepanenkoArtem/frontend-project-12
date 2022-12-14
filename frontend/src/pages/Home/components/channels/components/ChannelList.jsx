@@ -15,7 +15,7 @@ const ChannelList = () => {
   const activeChannel = useSelector(activeChannelSelector);
   const { t } = useTranslation();
 
-  const getChannelName = (id) => `# ${channels.entities[id].name}`;
+  const getChannelName = (id) => `# *${channels.entities[id].name}`;
   const dispatch = useDispatch();
 
   const setActive = (id) => {

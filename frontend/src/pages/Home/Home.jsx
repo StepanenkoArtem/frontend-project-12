@@ -15,7 +15,7 @@ const Home = () => {
     if (error) {
       logOut();
     }
-  });
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -24,9 +24,9 @@ const Home = () => {
         <div className="row h-100 bg-white flex-row">
           <Channels />
           <Messages />
-          <ModalWindow />
         </div>
       </div>
+      <ModalWindow />
     </div>
   );
 };
