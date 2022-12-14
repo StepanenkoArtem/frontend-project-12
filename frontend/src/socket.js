@@ -1,13 +1,10 @@
-import { io } from 'socket.io-client';
 import store from './store';
 import { addMessage } from './store/messages/messages.slice';
 import { addChannel, deleteChannel, updateChannel } from './store/channels/channels.slice';
 import { setAlert } from './store/ui/ui.slice';
 import { ALERT_TYPES } from './config/constants';
 
-const initSocket = () => {
-  const socketInstance = io();
-
+const subscribe = (socketInstance) => {
   socketInstance.on('newMessage', (message) => {
     store.dispatch(addMessage(message));
   });
@@ -52,4 +49,4 @@ const initSocket = () => {
   };
 };
 
-export default initSocket;
+export default subscribe;

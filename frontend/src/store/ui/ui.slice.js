@@ -55,7 +55,7 @@ const uiSlice = createSlice({
     builder
       .addCase(initChat.rejected, (state, action) => ({
         ...state,
-        alert: { type: ALERT_TYPES.ERROR, message: action.error.code },
+        alert: { type: ALERT_TYPES.ERROR, message: `error.${action.error.code}` },
       }));
   },
 });

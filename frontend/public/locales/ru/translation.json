@@ -20,6 +20,7 @@
     "MessagesWithCount_many": "{{count}} сообщений"
   },
   "error": {
+    "ERR_BAD_REQUEST": "Что-то пошло не так",
     "Conflict": "Пользователь с таким именем уже зарегистрирован",
     "Unauthorized": "Неверные имя пользователя или пароль",
     "Network Error": "Ошибка соединения",

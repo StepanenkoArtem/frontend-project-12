@@ -1,11 +1,12 @@
 import React, {
-  createContext, useState, useContext, useMemo, useCallback,
+  createContext, useState, useContext, useMemo, useCallback, useEffect,
 } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import ApiPaths from '../config/ApiPaths';
 import { setAlert } from '../store/ui/ui.slice';
 import { ALERT_TYPES } from '../config/constants';
+import { initChat } from '../store/channels/channels.slice';
 
 export const CurrentUserContext = createContext({
   currentUser: null,
@@ -67,6 +68,13 @@ export const CurrentUserProvider = ({ children }) => {
       dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: `error.${e.message}` }));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+    dispatch(initChat(client));
+  }, [currentUser]);
 
   const context = useMemo(() => ({
     currentUser, client, logIn, logOut, signUp,
