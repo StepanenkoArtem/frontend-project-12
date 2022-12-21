@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectActiveChannelMessages } from '../../../../../store/messages/messages.slice';
+import { selectMessagesByChannelId } from '../../../../../store/messages/messages.slice';
 import Message from './Message';
+import { currentChannelSelector } from '../../../../../store/channels/channels.selectors';
 
 const Conversation = () => {
-  const messages = useSelector(selectActiveChannelMessages);
+  const currentChannel = useSelector(currentChannelSelector);
+  const messages = useSelector(selectMessagesByChannelId(currentChannel?.id));
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {

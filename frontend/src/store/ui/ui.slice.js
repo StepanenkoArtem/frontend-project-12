@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  addChannel, deleteChannel, initChat, updateChannel,
-} from '../channels/channels.slice';
+import { initChat } from '../channels/channels.slice';
 import { ALERT_TYPES } from '../../config/constants';
 
 const uiSlice = createSlice({
@@ -14,10 +12,6 @@ const uiSlice = createSlice({
     },
   },
   reducers: {
-    setActiveChannelId: (state, action) => ({
-      ...state,
-      activeChannelId: action.payload,
-    }),
     setDeletedChannelId: (state, action) => ({
       ...state,
       deletedChannelId: action.payload,
@@ -37,22 +31,6 @@ const uiSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(deleteChannel, (state) => ({
-        ...state,
-        activeChannelId: 1,
-        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRemoved' },
-      }))
-      .addCase(updateChannel, (state) => ({
-        ...state,
-        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasRenamed' },
-      }))
-      .addCase(addChannel, (state, action) => ({
-        ...state,
-        activeChannelId: action.payload.id,
-        alert: { type: ALERT_TYPES.SUCCESS, message: 'alerts.channelWasCreated' },
-      }));
-
-    builder
       .addCase(initChat.rejected, (state, action) => ({
         ...state,
         alert: { type: ALERT_TYPES.ERROR, message: `error.${action.error.code}` },
@@ -61,7 +39,6 @@ const uiSlice = createSlice({
 });
 
 export const {
-  setActiveChannelId,
   setDeletedChannelId,
   setRenamedChannelId,
   setAlert,

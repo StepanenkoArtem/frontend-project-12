@@ -7,13 +7,15 @@ import RightArrowIcon from '../../../../../icons/RightArrowIcon';
 import { useCurrentUser } from '../../../../../contexts/CurrentUser';
 import { useChat } from '../../../../../contexts/Chat';
 import useProfanity from '../../../../../hooks/useProfanity';
-import { activeChannelSelector } from '../../../../../store/channels/channels.selectors';
+import {
+  currentChannelSelector,
+} from '../../../../../store/channels/channels.selectors';
 
 const NewMessage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const { currentUser } = useCurrentUser();
-  const activeChannel = useSelector(activeChannelSelector);
+  const currentChannel = useSelector(currentChannelSelector);
   const profanity = useProfanity();
   const { t } = useTranslation();
   const newMessageInput = useRef(null);
@@ -26,7 +28,7 @@ const NewMessage = () => {
     }
     setIsSending(true);
     const message = profanity.clean(newMessage);
-    await sendNewMessage(message, activeChannel.id, currentUser.username);
+    await sendNewMessage(message, currentChannel.id, currentUser.username);
     setNewMessage('');
     setIsSending(false);
   };
@@ -35,7 +37,7 @@ const NewMessage = () => {
     if (newMessageInput) {
       newMessageInput.current.focus();
     }
-  }, [activeChannel, isSending]);
+  }, [currentChannel, isSending]);
 
   return (
     <div className="mt-auto px-5 py-3">
