@@ -74,7 +74,7 @@ export const CurrentUserProvider = ({ children }) => {
       return;
     }
     dispatch(initChat(client));
-  }, [currentUser]);
+  }, [currentUser, client, dispatch]);
 
   const context = useMemo(() => ({
     currentUser, client, logIn, logOut, signUp,
