@@ -4,23 +4,19 @@ import {
   Button, ButtonGroup, Dropdown, Nav,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { setActiveChannelId, setRenamedChannelId, setDeletedChannelId } from '../../../../../store/ui/ui.slice';
+import { setRenamedChannelId, setDeletedChannelId } from '../../../../../store/ui/ui.slice';
 import {
-  activeChannelSelector,
-  channelsSelector,
+  channelsSelector, currentChannelSelector,
 } from '../../../../../store/channels/channels.selectors';
+import { setCurrentChannelId } from '../../../../../store/channels/channels.slice';
 
 const ChannelList = () => {
   const channels = useSelector(channelsSelector);
-  const activeChannel = useSelector(activeChannelSelector);
+  const currentChannel = useSelector(currentChannelSelector);
   const { t } = useTranslation();
 
   const getChannelName = (id) => `# ${channels.entities[id].name}`;
   const dispatch = useDispatch();
-
-  const setActive = (id) => {
-    dispatch(setActiveChannelId(id));
-  };
 
   const showRenameChannelModal = (id) => {
     dispatch(setRenamedChannelId(id));
@@ -35,7 +31,7 @@ const ChannelList = () => {
       <Nav className="flex-column overflow-visible" as="ul">
         { channels.ids.map(
           (id) => {
-            const isActive = id === activeChannel.id;
+            const isActive = id === currentChannel?.id;
             const variant = isActive ? 'secondary' : '';
             const isRemovable = channels.entities[id].removable;
             return (
@@ -44,7 +40,7 @@ const ChannelList = () => {
                   <Button
                     variant={variant}
                     className={`w-100 rounded-0 text-start btn text-truncate ${isActive && 'text-white'}`}
-                    onClick={() => setActive(id)}
+                    onClick={() => dispatch(setCurrentChannelId(id))}
                   >
                     {getChannelName(id)}
                   </Button>

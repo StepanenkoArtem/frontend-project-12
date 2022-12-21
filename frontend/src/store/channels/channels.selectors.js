@@ -18,11 +18,21 @@ const channelErrorSelector = createSelector(
   (channels) => channels.error,
 );
 
-const activeChannelSelector = createSelector(
-  (state) => state,
-  ({ channels, ui }) => channels.entities[ui.activeChannelId],
+const currentChannelSelector = createSelector(
+  (state) => state.channels,
+  (channels) => channels.entities[channels.currentChannelId],
+);
+
+const defaultChannelSelector = createSelector(
+  (state) => state.channels,
+  (channels) => channels.entities[channels.defaultChannelId],
 );
 
 export {
-  channelNamesSelector, channelErrorSelector, channelsSelector, activeChannelSelector, selectors,
+  channelNamesSelector,
+  currentChannelSelector,
+  channelErrorSelector,
+  channelsSelector,
+  defaultChannelSelector,
+  selectors,
 };

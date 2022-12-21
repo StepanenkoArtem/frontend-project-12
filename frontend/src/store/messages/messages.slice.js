@@ -1,15 +1,13 @@
-import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import { initChat } from '../channels/channels.slice';
 
 const messagesAdapter = createEntityAdapter();
 const selectors = messagesAdapter.getSelectors((state) => state.messages);
 
-const selectActiveChannelMessages = createSelector(
-  (state) => state,
-  (state) => state.messages.ids
-    .map((id) => state.messages.entities[id])
-    .filter((message) => message.channelId === state.ui.activeChannelId),
-);
+const selectMessagesByChannelId = (channelId) => (state) => state
+  .messages.ids
+  .map((id) => state.messages.entities[id])
+  .filter((message) => message.channelId === channelId);
 
 /* eslint-disable no-param-reassign */
 const messagesSlice = createSlice({
@@ -41,6 +39,6 @@ const messagesSlice = createSlice({
 /* eslint-enable no-param-reassign */
 export const { addMessage } = messagesSlice.actions;
 
-export { selectors, selectActiveChannelMessages };
+export { selectors, selectMessagesByChannelId };
 
 export default messagesSlice.reducer;
