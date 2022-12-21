@@ -15,7 +15,6 @@ const ChannelList = () => {
   const currentChannel = useSelector(currentChannelSelector);
   const { t } = useTranslation();
 
-  const getChannelName = (id) => `# ${channels.entities[id].name}`;
   const dispatch = useDispatch();
 
   const showRenameChannelModal = (id) => {
@@ -29,20 +28,20 @@ const ChannelList = () => {
   return (
     <div className="flex-grow-1">
       <Nav className="flex-column overflow-visible" as="ul">
-        { channels.ids.map(
-          (id) => {
-            const isActive = id === currentChannel?.id;
+        { channels.map(
+          (channel) => {
+            const isActive = channel.id === currentChannel?.id;
             const variant = isActive ? 'secondary' : '';
-            const isRemovable = channels.entities[id].removable;
+            const isRemovable = channel.removable;
             return (
-              <Nav.Item key={id} className="nav-item w-100">
+              <Nav.Item key={channel.id} className="nav-item w-100">
                 <Dropdown as={ButtonGroup} className="d-flex justify-content-between">
                   <Button
                     variant={variant}
                     className={`w-100 rounded-0 text-start btn text-truncate ${isActive && 'text-white'}`}
-                    onClick={() => dispatch(setCurrentChannelId(id))}
+                    onClick={() => dispatch(setCurrentChannelId(channel.id))}
                   >
-                    {getChannelName(id)}
+                    {`# ${channel.name}`}
                   </Button>
 
                   {isRemovable && (
@@ -52,10 +51,10 @@ const ChannelList = () => {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu variant={variant}>
-                        <Dropdown.Item onClick={() => showRenameChannelModal(id)} key="renameChannel">
+                        <Dropdown.Item onClick={() => showRenameChannelModal(channel.id)} key="renameChannel">
                           {t('channels.renameChannel')}
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => showDeleteChannelModal(id)} key="removeChannel">
+                        <Dropdown.Item onClick={() => showDeleteChannelModal(channel.id)} key="removeChannel">
                           {t('channels.removeChannel')}
                         </Dropdown.Item>
                       </Dropdown.Menu>

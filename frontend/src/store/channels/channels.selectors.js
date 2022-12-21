@@ -10,7 +10,7 @@ const selectors = channelsAdapter.getSelectors((state) => state.channels);
 
 const channelsSelector = createSelector(
   (state) => state.channels,
-  (channels) => channels,
+  (channels) => channels.ids.map((id) => channels.entities[id]),
 );
 
 const channelErrorSelector = createSelector(
