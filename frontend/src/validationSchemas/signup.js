@@ -1,24 +1,24 @@
 import * as Yup from 'yup';
-import i18n from '../i18n';
+import { PASSWORD_MIN_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from '../config/constants';
 
-const signUpSchema = () => Yup.object({
+const signUpSchema = Yup.object({
   username: Yup.string()
-    .required(i18n.t('error.required_field'))
+    .required('error.required_field')
     .test(
       'length_range',
-      i18n.t('error.length_range', { min: 3, max: 20 }),
-      (value) => value?.length >= 3 && value?.length <= 20,
+      'error.length_range',
+      (value) => value?.length >= USERNAME_MIN_LENGTH && value?.length <= USERNAME_MAX_LENGTH,
     ),
   password: Yup.string()
-    .min(6, i18n.t('error.min_length', { min: 6 }))
-    .required(i18n.t('error.required_field')),
+    .min(PASSWORD_MIN_LENGTH, 'error.min_length')
+    .required('error.required_field'),
   passwordConfirmation: Yup.string()
     .when(
       'password',
       (password, field) => (
         password
-          ? field.required(i18n.t('error.required_field'))
-            .oneOf([Yup.ref('password')], i18n.t('error.passwords_should_match'))
+          ? field.required('error.required_field')
+            .oneOf([Yup.ref('password')], 'error.passwords_should_match')
           : field),
     ),
 });

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import {
   Modal, Button, Form,
 } from 'react-bootstrap';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { channelNamesSelector } from '../store/channels/channels.selectors';
@@ -27,66 +27,76 @@ const AddNewChannelModal = () => {
     input.current.focus();
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      channelName: '',
-    },
-    validationSchema: channelSchema(channelNames),
-    validateOnBlur: false,
-    validateOnMount: false,
-    onSubmit: ({ channelName }) => {
-      close();
-      const sanitizedName = profanity.clean(channelName);
-      createNewChannel(sanitizedName);
-      formik.resetForm();
-    },
-  });
-
   return (
     <Modal show>
-      <Form onSubmit={formik.handleSubmit}>
-        <Modal.Header closeButton onClick={close}>
-          <Modal.Title>{t('channels.createNewChannel')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Label
-            className="visually-hidden"
-            htmlFor="channelName"
-          >
-            {t('placeholders.Channel name')}
-          </Form.Label>
-          <Form.Control
-            ref={input}
-            type="text"
-            id="channelName"
-            name="channelName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.channelName}
-            placeholder={t('placeholders.Channel name')}
-            required
-            isInvalid={!formik.isValid}
-            autoFocus
-          />
-          <Form.Control.Feedback
-            type="invalid"
-          >
-            {formik.errors.channelName}
-          </Form.Control.Feedback>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={close}>{t('cancel')}</Button>
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={!formik.isValid}
-            active={formik.isValid}
-          >
-            {t('channels.createNewChannel')}
-          </Button>
-        </Modal.Footer>
-      </Form>
+      <Formik
+        initialValues={{
+          channelName: '',
+        }}
+        onSubmit={(values, actions) => {
+          close();
+          const sanitizedName = profanity.clean(values.channelName);
+          createNewChannel(sanitizedName);
+          actions.resetForm();
+        }}
+        validateOnMount={false}
+        validateOnBlur={false}
+        validationSchema={channelSchema(channelNames)}
+      >
+        {({
+          values,
+          errors,
+          isValid,
+          handleSubmit,
+          handleBlur,
+          handleChange,
+        }) => (
+          <Form onSubmit={handleSubmit}>
+            <Modal.Header closeButton onClick={close}>
+              <Modal.Title>{t('channels.createNewChannel')}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Label
+                className="visually-hidden"
+                htmlFor="channelName"
+              >
+                {t('placeholders.Channel name')}
+              </Form.Label>
+              <Form.Control
+                ref={input}
+                type="text"
+                id="channelName"
+                name="channelName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.channelName}
+                placeholder={t('placeholders.Channel name')}
+                required
+                isInvalid={!isValid}
+                autoFocus
+              />
+              <Form.Control.Feedback
+                type="invalid"
+              >
+                {t(errors.channelName)}
+              </Form.Control.Feedback>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={close}>{t('cancel')}</Button>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!isValid}
+                active={isValid}
+              >
+                {t('channels.createNewChannel')}
+              </Button>
+            </Modal.Footer>
+          </Form>
+        )}
+      </Formik>
     </Modal>
+
   );
 };
 export default AddNewChannelModal;
