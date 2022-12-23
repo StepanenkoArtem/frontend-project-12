@@ -3,9 +3,13 @@ import ApiPaths from '../../config/ApiPaths';
 
 export const initChat = createAsyncThunk(
   'channels/fetchInitialData',
-  async (apiClient) => {
-    const { data } = await apiClient.get(ApiPaths.data);
-    return data;
+  async (apiClient, { rejectWithValue }) => {
+    try {
+      const { data } = await apiClient.get(ApiPaths.data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
@@ -23,15 +27,17 @@ const channelsSlice = createSlice({
   reducers: {
     addChannels: channelsAdapter.addMany,
     addChannel: channelsAdapter.addOne,
-    deleteChannel: channelsAdapter.removeOne,
+    deleteChannel: (state, action) => {
+      const deletedChannelId = action.payload;
+      channelsAdapter.removeOne(state, deletedChannelId);
+      if (deletedChannelId === state.currentChannelId) {
+        state.currentChannelId = state.defaultChannelId;
+      }
+    },
     updateChannel: channelsAdapter.upsertOne,
     setCurrentChannelId: (state, action) => ({
       ...state,
       currentChannelId: action.payload,
-    }),
-    switchToDefaultChannel: (state) => ({
-      ...state,
-      currentChannelId: state.defaultChannelId,
     }),
   },
   extraReducers: (builder) => {
@@ -44,7 +50,7 @@ const channelsSlice = createSlice({
       .addCase(initChat.rejected, (state, action) => ({
         ...state,
         loadingStatus: 'failed',
-        error: action.error,
+        error: action.payload,
       }))
       .addCase(initChat.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);
@@ -58,7 +64,7 @@ const channelsSlice = createSlice({
 /* eslint-enable no-param-reassign */
 
 export const {
-  addChannel, updateChannel, deleteChannel, setCurrentChannelId, switchToDefaultChannel,
+  addChannel, updateChannel, deleteChannel, setCurrentChannelId,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

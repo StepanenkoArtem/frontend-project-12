@@ -4,7 +4,6 @@ import {
   addChannel,
   deleteChannel,
   setCurrentChannelId,
-  switchToDefaultChannel,
   updateChannel,
 } from './store/channels/channels.slice';
 import { setAlert } from './store/ui/ui.slice';
@@ -21,18 +20,14 @@ const subscribe = (socketInstance) => {
 
   socketInstance.on('removeChannel', ({ id }) => {
     store.dispatch(deleteChannel(id));
-    const { channels: { currentChannelId } } = store.getState();
-    if (currentChannelId === id) {
-      store.dispatch(switchToDefaultChannel());
-    }
   });
 
   socketInstance.on('renameChannel', (channel) => {
     store.dispatch(updateChannel(channel));
   });
 
-  socketInstance.on('connect_error', (reason) => {
-    store.dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: reason }));
+  socketInstance.on('connect_error', () => {
+    store.dispatch(setAlert({ type: ALERT_TYPES.ERROR, message: 'error.Network Error' }));
   });
 
   const createNewChannel = async (channelName) => {
