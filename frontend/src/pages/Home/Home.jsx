@@ -12,7 +12,7 @@ const Home = () => {
   const { logOut } = useCurrentUser();
 
   useEffect(() => {
-    if (error) {
+    if (error?.statusCode === 401) {
       logOut();
     }
   }, [error, logOut]);
